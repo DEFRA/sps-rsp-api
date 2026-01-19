@@ -13,7 +13,7 @@ It follows the Shared Platform DevOps patterns used by the team:
 
 ## Repository Structure
 ```
-SPS-APIM-GATEWAY-ADDRESS-LOOKUP-V10/
+SPS-APIM-GATEWAY-rsp/
 ├─ .github/
 │  └─ workflows/                # GitHub Actions workflows (optional CI checks)
 ├─ external/
@@ -54,15 +54,15 @@ Policies and configuration reference these values using placeholders like `{{ va
 1. Clone and create a feature branch:
    ```bash
    git clone <repo-url>
-   cd sps-apim-gateway-address-lookup
+   cd sps-rsp-api
    git checkout -b feature/<ticket-id>-short-description
    ```
-2. Edit OpenAPI under `apis/address-lookup/api-definition/openapi.yaml`.
+2. Edit OpenAPI under `apis/sps-rsp-api/api-definition/openapi.yaml`.
 3. Update policies in `policies/`.
 4. Commit and push:
    ```bash
    git add .
-   git commit -m "feat(address-lookup): add /v1/addresses/search"
+   git commit -m "feat(sps-rsp-api): add /v1/addresses/search"
    git push origin feature/<ticket-id>-short-description
    ```
 5. Open PR → `develop`.

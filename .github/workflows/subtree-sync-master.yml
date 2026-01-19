@@ -16,16 +16,16 @@ env:
   CENTRAL_REPO: DEFRA/sps-apim-gateway
   BASE_BRANCH: master
 
-  TEAM_REMOTE_NAME: address-lookup-v10
-  TEAM_REPO_URL: DEFRA/sps-apim-gateway-address-lookup-v10
+  TEAM_REMOTE_NAME: sps-rsp-api
+  TEAM_REPO_URL: DEFRA/sps-rsp-api
   TEAM_BRANCH: master
 
   TEAM_WINS_ON_CONFLICT: "true"
 
   # Top-level mapping (source → target)
   FOLDER_MAP: |
-    internal/base/apis/address-lookup-v10=internal/base/apis/address-lookup-v10
-    external/base/apis/address-lookup-v10=external/base/apis/address-lookup-v10
+    internal/base/apis/rsp=internal/base/apis/rsp
+    external/base/apis/rsp=external/base/apis/rsp
 
 jobs:
   prepare-branch:
