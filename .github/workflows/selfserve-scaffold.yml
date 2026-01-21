@@ -21,7 +21,7 @@ on:
         default: "false"
 
 permissions:
-  contents: write  # Required to push changes back to repo
+  contents: write
 
 jobs:
   scaffold:
@@ -29,12 +29,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      # Optional: Install Pandoc if you want DOCX/PDF report exports
-      # - name: Install pandoc
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install -y pandoc
 
       - name: Run in-place scaffold script
         shell: pwsh
@@ -63,5 +57,3 @@ jobs:
           ENV="${{ github.event.inputs.environment }}"
           git commit -m "APIM Self-Serve: materialize & in-place token mapping (env=${ENV}) [CI]"
           git push origin HEAD:${{ github.ref_name }}
-
-          
