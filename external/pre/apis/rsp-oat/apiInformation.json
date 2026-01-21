@@ -1,0 +1,21 @@
+{
+  "properties": {
+    "path": "rsp-oat",
+    "apiRevision": "1",
+    "apiVersion": "v1",
+    "apiVersionSetId": "/subscriptions/#{{ subscriptionId }}/resourceGroups/#{{ apiManagementServiceResourceGroup }}/providers/Microsoft.ApiManagement/service/#{{ apiManagementServiceName }}/apiVersionSets/rspoat",
+    "authenticationSettings": {},
+    "description": "This solution encompasses version 1 endpoints which will enable consumption of the RSP Data Cache with some additional write capability",
+    "isCurrent": true,
+    "displayName": "RSP OAT",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://#{{ rspOatServiceUrlHost }}.azurewebsites.net/rsp-api/v1",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": false
+  }
+}

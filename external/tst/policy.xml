@@ -1,0 +1,55 @@
+<!--
+Generated from ApiOPS
+-->
+<policies>
+	<inbound>
+		<set-variable name="correlation-id" value="@(string.IsNullOrEmpty(context.Request.Headers.GetValueOrDefault("x-correlation-id", (string)null)) 
+                        ? Guid.NewGuid().ToString() 
+                        : context.Request.Headers.GetValueOrDefault("x-correlation-id", (string)null))" />
+		<set-header name="x-correlation-id" exists-action="override">
+			<value>@((string)context.Variables["correlation-id"])</value>
+		</set-header>
+		<set-variable name="bearerToken" value="@{
+            var authHeader = context.Request.Headers.GetValueOrDefault("Authorization", "");
+            if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+            {
+                return authHeader.Substring(7).Trim();
+            }
+            if (!string.IsNullOrEmpty(authHeader))
+            {
+                return authHeader.Trim();
+            }
+            return null;
+            }" />
+		<set-variable name="appId" value="@(context.Variables.GetValueOrDefault("bearerToken", "").AsJwt()?.Claims["appid"]?.FirstOrDefault() ?? "unknown")" />
+		<trace source="APIMRequestTelemetry" severity="information">
+			<message>APIM RequestTelemetry Trace</message>
+			<metadata name="AppID" value="@((string)context.Variables.GetValueOrDefault("appId", "unknown"))" />
+			<metadata name="ApiID" value="@((string)context.Api.Id)" />
+			<metadata name="ApiName" value="@((string)context.Api.Name)" />
+			<metadata name="OperationName" value="@((string)context.Operation.Name)" />
+			<metadata name="x-correlation-id" value="@((string)context.Variables["correlation-id"])" />
+		</trace>
+	</inbound>
+	<backend>
+		<forward-request />
+	</backend>
+	<outbound>
+		<choose>
+			<when condition="@(context.Variables.ContainsKey("correlation-id"))">
+				<set-header name="x-correlation-id" exists-action="override">
+					<value>@((string)context.Variables["correlation-id"])</value>
+				</set-header>
+			</when>
+		</choose>
+	</outbound>
+	<on-error>
+		<choose>
+			<when condition="@(context.Variables.ContainsKey("correlation-id"))">
+				<set-header name="x-correlation-id" exists-action="override">
+					<value>@((string)context.Variables["correlation-id"])</value>
+				</set-header>
+			</when>
+		</choose>
+	</on-error>
+</policies>
