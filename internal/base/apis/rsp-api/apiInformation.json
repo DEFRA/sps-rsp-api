@@ -5,7 +5,7 @@
     "apiVersion": "v1",
     "apiVersionSetId": "/subscriptions/#{{ subscriptionId }}/resourceGroups/#{{ apiManagementServiceResourceGroup }}/providers/Microsoft.ApiManagement/service/#{{ apiManagementServiceName }}/apiVersionSets/rsp-api",
     "authenticationSettings": {},
-    "description": "Test_30Jan26_This solution encompasses version 1 endpoints which will enable consumption of the RSP Data Cache with some additional write capability",
+    "description": "Test_30Jan26 This solution encompasses version 1 endpoints which will enable consumption of the RSP Data Cache with some additional write capability",
     "isCurrent": true,
     "displayName": "RSP",
     "protocols": [
