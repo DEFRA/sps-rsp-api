@@ -22,8 +22,8 @@ env:
 
   # Mapping (source → target)
   FOLDER_MAP: |
-    internal/base/apis/rsp=internal/base/apis/rsp
-    external/base/apis/rsp=external/base/apis/rsp
+    internal/base/apis/rsp=internal/base/apis/rsp-api
+    external/base/apis/rsp=external/base/apis/rsp-api
 jobs:
   sync:
     runs-on: ubuntu-latest
