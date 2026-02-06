@@ -19,6 +19,8 @@ env:
   TEAM_REPO_URL: DEFRA/sps-rsp-api
   TEAM_BRANCH: develop
 
+  API_NAME: rsp-api
+
   FOLDER_MAP: |
     internal/base/apis/rsp-api=internal/base/apis/rsp-api
     external/base/apis/rsp-api=external/base/apis/rsp-api
@@ -39,7 +41,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: SSH agent
+      - name: Load SSH for central
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.CENTRAL_SYNC_SSH_KEY }}
@@ -52,7 +54,7 @@ jobs:
           git config --global user.name github-actions
           git config --global user.email github-actions@github.com
 
-      - name: Sync all folders
+      - name: Sync subtree folders
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -60,6 +62,7 @@ jobs:
           set -x
 
           TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          API_NAME="${API_NAME}"
 
           git clone "git@github.com:${CENTRAL_REPO}.git" central
           cd central
@@ -69,11 +72,9 @@ jobs:
 
           git remote add team "https://x-access-token:${GITHUB_TOKEN}@github.com/${TEAM_REPO_URL}.git" \
             || git remote set-url team "https://x-access-token:${GITHUB_TOKEN}@github.com/${TEAM_REPO_URL}.git"
+
           git fetch team "${TEAM_BRANCH}"
-
           git checkout -B __team_branch__ "refs/remotes/team/${TEAM_BRANCH}"
-
-          API_NAME=$(echo "${FOLDER_MAP}" | head -n 1 | sed 's/.*apis\///' | sed 's/=.*//')
 
           printf '%s\n' "${FOLDER_MAP}" | while IFS='=' read -r SRC TARGET; do
             [ -z "${SRC}" ] && continue
@@ -81,33 +82,29 @@ jobs:
             SRC="${SRC%$'\r'}"
             TARGET="${TARGET%$'\r'}"
 
-            echo ""
             echo "=== PROCESSING ${SRC} ==="
 
             git checkout __team_branch__
 
             if ! git rev-list -1 HEAD -- "${SRC}" >/dev/null 2>&1; then
-              echo "No history for ${SRC}. Skipping"
+              echo "No history for ${SRC}, skipping"
               continue
             fi
 
-            SPLIT_SHA=$(git subtree split -P "${SRC}" || true)
-            if [ -z "${SPLIT_SHA}" ]; then
-              echo "split returned no commit for ${SRC}. Skipping."
-              continue
-            fi
+            SPLIT_SHA=$(git subtree split -P "${SRC}")
+            [ -z "${SPLIT_SHA}" ] && continue
 
             MSG="Subtree sync: ${API_NAME} → develop | api: ${API_NAME} | folder=${SRC} | ${TS}"
 
             git checkout "${CENTRAL_BRANCH}"
 
             set +e
-            git merge --no-commit -s recursive -Xsubtree="${TARGET}" "${SPLIT_SHA}" -m "${MSG}"
+            git merge --no-commit -s recursive -X subtree="${TARGET}" "${SPLIT_SHA}" -m "${MSG}"
             RC=$?
             set -e
 
             if [ $RC -ne 0 ]; then
-              git merge --abort 2>/dev/null || git reset --merge || true
+              git merge --abort 2>/dev/null || true
               git reset --hard
               git rm -r --cached --ignore-unmatch "${TARGET}" || true
               git clean -fdx -- "${TARGET}" || true
