@@ -1,31 +1,46 @@
-
 param(
-  [string]$RootPath = ".",
-  [ValidateSet('external','internal','both')] [string]$Journey = 'both',
-  [ValidateSet('base','dev','pre','tst','all')] [string]$Environment = 'all',
-  [string]$ApiName = 'rsp-api',
-  [string]$ProductName = 'rsp-oauth',
-  [string]$VersionSetName = 'rsp-api',
-  [string]$NamedValueName = 'rsp-backend-scopeid',
-  [switch]$FailOnError,
-  [switch]$EnforceUpperSnakeCaseDisplayName
+    [string]$RootPath = ".",
+    [ValidateSet('external', 'internal', 'both')] [string]$Journey = 'both',
+    [ValidateSet('base', 'dev', 'pre', 'tst', 'all')] [string]$Environment = 'all',
+    [string]$ApiName = 'rsp-api',
+    [string]$ProductName = 'rsp-oauth-product', # Ignored for products; overridden by journey mapping below
+    [string]$VersionSetName = 'rsp-api',
+    [string[]]$NamedValueName = @('rsp-frontend-clientid', 'rsp-backend-scopeid'),
+    [switch]$FailOnError,
+    [switch]$EnforceUpperSnakeCaseDisplayName
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+# ----------------------------
+# Helpers
+# ----------------------------
+
 function Resolve-File {
-  param([string]$Dir, [string[]]$Candidates)
-  if (-not (Test-Path -LiteralPath $Dir)) { return $null }
-  $entries = Get-ChildItem -LiteralPath $Dir -File -Force
-  foreach ($cand in $Candidates) {
-    $hit = $entries | Where-Object { $_.Name -ieq $cand } | Select-Object -First 1
-    if ($hit) { return $hit.FullName }
-  }
-  return $null
+    param([string]$Dir, [string[]]$Candidates)
+    if (-not (Test-Path -LiteralPath $Dir)) { return $null }
+    $entries = Get-ChildItem -LiteralPath $Dir -File -Force
+    foreach ($cand in $Candidates) {
+        $hit = $entries | Where-Object { $_.Name -ieq $cand } | Select-Object -First 1
+        if ($hit) { return $hit.FullName }
+    }
+    return $null
 }
 
-# apiInformation.json strict validator
+function Get-ProductNameForJourney {
+    param([Parameter(Mandatory)][string]$JourneyValue)
+    switch -Regex ($JourneyValue.ToLower()) {
+        '^external$' { return 'rsp-oauth' }
+        '^internal$' { return 'rsp-oauth-product' }
+        default      { return $ProductName } # fallback if needed
+    }
+}
+
+# ----------------------------
+# Validators
+# ----------------------------
+
 function Test-ApiInformationFields {
     param($filePath)
     try {
@@ -58,13 +73,10 @@ function Test-ApiInformationFields {
             }
         }
     }
-    catch {
-        return "Invalid JSON format in ${filePath}"
-    }
+    catch { return "Invalid JSON format in ${filePath}" }
     return $null
 }
 
-# productInformation.json strict validator
 function Test-ProductInformationFields {
     param($filePath)
     try {
@@ -83,13 +95,10 @@ function Test-ProductInformationFields {
             }
         }
     }
-    catch {
-        return "Invalid JSON format in ${filePath}"
-    }
+    catch { return "Invalid JSON format in ${filePath}" }
     return $null
 }
 
-# versionSetInformation.json strict validator
 function Test-VersionSetInformationFields {
     param($filePath)
     try {
@@ -108,13 +117,10 @@ function Test-VersionSetInformationFields {
             }
         }
     }
-    catch {
-        return "Invalid JSON format in ${filePath}"
-    }
+    catch { return "Invalid JSON format in ${filePath}" }
     return $null
 }
 
-# namedValueInformation.json strict validator
 function Test-NamedValueFields {
     param($filePath)
     try {
@@ -139,13 +145,10 @@ function Test-NamedValueFields {
             }
         }
     }
-    catch {
-        return "Invalid JSON format in ${filePath}"
-    }
+    catch { return "Invalid JSON format in ${filePath}" }
     return $null
 }
 
-# YAML validator
 function Test-YamlOpenAPI {
     param($filePath)
     try {
@@ -157,9 +160,7 @@ function Test-YamlOpenAPI {
         if (-not [regex]::IsMatch($content,'(?im)^\s*info\s*:')) { return "Missing 'info' section in ${filePath}" }
         if (-not [regex]::IsMatch($content,'(?im)^\s*paths\s*:')) { return "Missing 'paths' section in ${filePath}" }
     }
-    catch {
-        return "Invalid YAML format in ${filePath}"
-    }
+    catch { return "Invalid YAML format in ${filePath}" }
     return $null
 }
 
@@ -172,127 +173,163 @@ function Test-EmptyJsonFile {
         if ($obj -is [hashtable] -and $obj.Keys.Count -eq 0) { return $null }
         return "File '$filePath' must be an empty JSON object ({})."
     }
-    catch {
-        return "Invalid JSON in '$filePath': $_"
-    }
+    catch { return "Invalid JSON in '$filePath': $_" }
 }
 
-# ------------------------------------------------------------------------------
-# EXPECTATIONS
-# ------------------------------------------------------------------------------
+# ----------------------------
+# Expectations
+# ----------------------------
 
 $JourneyList = if ($Journey -eq 'both') { @('external','internal') } else { @($Journey) }
 $EnvList     = if ($Environment -eq 'all') { @('base','dev','pre','tst') } else { @($Environment) }
 
 $Expectations = @(
-  @{ Name = "apis/$ApiName"
-     RelDir = { param($j,$e,$n) Join-Path (Join-Path (Join-Path $j $e) "apis") $n }
-     Required = @( @('apiInformation.json','apinformation.json'), @('Specification.yaml','specification.yaml','specification.yml'), @('Policy.xml','policy.xml') )
-     Validators = @{
-       'apiInformation.json
+    @{ Name = "apis/*"
+       RelDir = { param($j,$e,$n) Join-Path (Join-Path (Join-Path $j $e) "apis") $n }
+       Required = @( @('apiInformation.json','apinformation.json'),
+                     @('Specification.yaml','specification.yaml','specification.yml'),
+                     @('Policy.xml','policy.xml') )
+       Validators = @{
+         'apiInformation.json
 apinformation.json' = { param($p) Test-ApiInformationFields $p }
-       'Specification.yaml
+         'Specification.yaml
 specification.yaml
 specification.yml' = { param($p) Test-YamlOpenAPI $p }
-       'Policy.xml
-policy.xml' = { param($p)
-         $content = Get-Content $p -Raw
-         if ($content -notmatch '<policies>') { return "Missing <policies> root element in ${p}" }
-         if ($content -notmatch '<inbound>')  { return "Missing <inbound> section in ${p}" }
-         return $null
+         'Policy.xml
+policy.xml' = {
+             param($p)
+             $content = Get-Content $p -Raw
+             if ($content -notmatch '<policies>') { return "Missing <policies> root element in ${p}" }
+             if ($content -notmatch '<inbound>')  { return "Missing <inbound> section in ${p}" }
+             return $null
+         }
        }
-     }
-  },
-  @{ Name = "products/$ProductName"
-     RelDir = { param($j,$e,$n) Join-Path (Join-Path (Join-Path $j $e) "products") $n }
-     Required = @( @('productInformation.json') )
-     Validators = @{ 'productInformation.json' = { param($p) Test-ProductInformationFields $p } }
-  },
-  @{ Name = "products/$ProductName/apis/$ApiName"
-     RelDir = { param($j,$e,$n) Join-Path (Join-Path (Join-Path (Join-Path $j $e) "products") $ProductName) (Join-Path 'apis' $ApiName) }
-     Required = @( @('productApiInformation.json') )
-     Validators = @{ 'productApiInformation.json' = { param($p) Test-EmptyJsonFile $p } }
-  },
-  @{ Name = "version sets/$VersionSetName"
-     RelDir = { param($j,$e,$n) Join-Path (Join-Path (Join-Path $j $e) "version sets") $n }
-     Required = @( @('versionSetInformation.json') )
-     Validators = @{ 'versionSetInformation.json' = { param($p) Test-VersionSetInformationFields $p } }
-  },
-  @{ Name = "named values/$NamedValueName"
-     RelDir = { param($j,$e,$n) Join-Path (Join-Path (Join-Path $j $e) "named values") $n }
-     Required = @( @('namedValueInformation.json') )
-     Validators = @{ 'namedValueInformation.json' = { param($p) Test-NamedValueFields $p } }
-  }
+    },
+
+    @{ Name = "products/*"
+       RelDir = { param($j,$e,$n) Join-Path (Join-Path (Join-Path $j $e) "products") $n }
+       Required = @( @('productInformation.json') )
+       Validators = @{ 'productInformation.json' = { param($p) Test-ProductInformationFields $p } }
+    },
+
+    @{ Name = "products/*/apis/$ApiName"
+       RelDir = { param($j,$e,$n)
+           Join-Path (Join-Path (Join-Path (Join-Path $j $e) "products") $n) (Join-Path 'apis' $ApiName)
+       }
+       Required = @( @('productApiInformation.json') )
+       Validators = @{ 'productApiInformation.json' = { param($p) Test-EmptyJsonFile $p } }
+    },
+
+    @{ Name = "version sets/*"
+       RelDir = { param($j,$e,$n) Join-Path (Join-Path (Join-Path $j $e) "version sets") $n }
+       Required = @( @('versionSetInformation.json') )
+       Validators = @{ 'versionSetInformation.json' = { param($p) Test-VersionSetInformationFields $p } }
+    },
+
+    @{ Name = "namedvalues/*"
+       RelDir = { param($j,$e,$n) Join-Path (Join-Path (Join-Path $j $e) "namedvalues") $n }
+       Required = @( @('namedValueInformation.json') )
+       Validators = @{ 'namedValueInformation.json' = { param($p) Test-NamedValueFields $p } }
+    }
 )
 
-# ------------------------------------------------------------------------------
-# RUN VALIDATION
-# ------------------------------------------------------------------------------
+# ----------------------------
+# Run Validation
+# ----------------------------
 
 $Errors = @()
 $SummaryLines = @()
 
 foreach ($journey in $JourneyList) {
-  foreach ($env in $EnvList) {
-    $envPath = Join-Path $RootPath (Join-Path $journey $env)
-    if (-not (Test-Path $envPath)) {
-      $Errors += "Missing environment folder: ${envPath}"
-      $SummaryLines += "$journey | $env | (folder) | FAIL Missing environment folder"
-      continue
-    }
+    foreach ($env in $EnvList) {
 
-    foreach ($exp in $Expectations) {
-      $targetName = if ($exp.Name -like 'apis/*') { $ApiName } elseif ($exp.Name -like 'products/*') { $ProductName } elseif ($exp.Name -like 'version*') { $VersionSetName } else { $NamedValueName }
-      $dir = & $exp.RelDir $journey $env $targetName
-
-      if (-not (Test-Path $dir)) {
-        $Errors += "Missing folder: ${dir}"
-        $SummaryLines += "$journey | $env | $($exp.Name) | FAIL Missing folder"
-        continue
-      }
-
-      foreach ($group in $exp.Required) {
-        $resolved = Resolve-File -Dir $dir -Candidates $group
-        if (-not $resolved) {
-          $Errors += "Missing file in '${dir}': one of [$($group -join ', ')]"
-          $SummaryLines += "$journey | $env | $($exp.Name) | FAIL Missing $($group -join ' / ')"
-        } else {
-          $leaf = (Split-Path $resolved -Leaf)
-          $SummaryLines += "$journey | $env | $($exp.Name) | PASS $leaf"
-          foreach ($key in $exp.Validators.Keys) {
-            $alts = $key -split '\n'
-            foreach ($alt in $alts) {
-              if ($alt.Trim().ToLower() -eq $leaf.ToLower()) {
-                $r = & $exp.Validators[$key] $resolved
-                if ($r) {
-                  $Errors += $r
-                  $SummaryLines += "$journey | $env | $($exp.Name) | FAIL $r"
-                }
-              }
-            }
-          }
+        $envPath = Join-Path $RootPath (Join-Path $journey $env)
+        if (-not (Test-Path $envPath)) {
+            $Errors += "Missing environment folder: ${envPath}"
+            $SummaryLines += "$journey | $env | (folder) | FAIL Missing environment folder"
+            continue
         }
-      }
+
+        foreach ($exp in $Expectations) {
+
+            # --- Resolve target names per expectation ---
+            $targetNames = if ($exp.Name -like 'apis/*') {
+                @($ApiName)
+            }
+            elseif ($exp.Name -like 'products/*/apis/*') {
+                # Use dynamic product name based on the current journey
+                @((Get-ProductNameForJourney -JourneyValue $journey))
+            }
+            elseif ($exp.Name -like 'products/*') {
+                @((Get-ProductNameForJourney -JourneyValue $journey))
+            }
+            elseif ($exp.Name -like 'version sets/*') {
+                @($VersionSetName)
+            }
+            elseif ($exp.Name -like 'namedvalues/*') {
+                $NamedValueName
+            }
+            else {
+                @($NamedValueName)
+            }
+
+            foreach ($target in $targetNames) {
+
+                $dir = & $exp.RelDir $journey $env $target
+
+                if (-not (Test-Path $dir)) {
+                    $Errors += "Missing folder: ${dir}"
+                    $SummaryLines += "$journey | $env | $($exp.Name) | FAIL Missing folder ($target)"
+                    continue
+                }
+
+                foreach ($group in $exp.Required) {
+                    $resolved = Resolve-File -Dir $dir -Candidates $group
+
+                    if (-not $resolved) {
+                        $Errors += "Missing file in '${dir}': one of [$($group -join ', ')]"
+                        $SummaryLines += "$journey | $env | $($exp.Name) | FAIL Missing $($group -join ' / ') ($target)"
+                    }
+                    else {
+                        $leaf = Split-Path $resolved -Leaf
+                        $SummaryLines += "$journey | $env | $($exp.Name) | PASS $leaf ($target)"
+
+                        foreach ($key in $exp.Validators.Keys) {
+                            $alts = $key -split '\n'
+                            foreach ($alt in $alts) {
+                                if ($alt.Trim().ToLower() -eq $leaf.ToLower()) {
+                                    $r = & $exp.Validators[$key] $resolved
+                                    if ($r) {
+                                        $Errors += $r
+                                        $SummaryLines += "$journey | $env | $($exp.Name) | FAIL $r ($target)"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-  }
 }
 
-# ------------------------------------------------------------------------------
-# OUTPUT SUMMARY
-# ------------------------------------------------------------------------------
+# ----------------------------
+# Output Summary
+# ----------------------------
 
 $EOL = "`r`n"
 $header = "## APIM Validation Summary${EOL}Journey | Env | Item | Status${EOL}--- | --- | --- | ---"
 $body   = ($SummaryLines -join $EOL)
 
 if ($Errors.Count -gt 0) {
-  $status = "FAIL Validation FAILED. $($Errors.Count) issue(s) found."
-  $footer = "### Issues:${EOL}" + ($Errors -join $EOL)
-  $exit   = 1
-} else {
-  $status = "PASS Validation PASSED. All checks successful."
-  $footer = ""
-  $exit   = 0
+    $status = "FAIL Validation FAILED. $($Errors.Count) issue(s) found."
+    $footer = "### Issues:${EOL}" + ($Errors -join $EOL)
+    $exit   = 1
+}
+else {
+    $status = "PASS Validation PASSED. All checks successful."
+    $footer = ""
+    $exit   = 0
 }
 
 $full = $header + $EOL + $body + $EOL + $EOL + $status + $EOL + $footer + $EOL
