@@ -22,6 +22,10 @@ env:
     internal/base/apis/rsp-api=internal/base/apis/rsp-api
     external/base/apis/rsp-api=external/base/apis/rsp-api
     internal/dev/apis/rsp-api=internal/dev/apis/rsp-api
+    internal/tst/apis/rsp-api=internal/tst/apis/rsp-api
+    external/tst/apis/rsp-uat=external/tst/apis/rsp-uat
+    internal/pre/apis/rsp-oat-api=internal/pre/apis/rsp-oat-api
+    external/pre/apis/rsp-oat=external/pre/apis/rsp-oat
 
 jobs:
   sync:
