@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
 
 env:
   CENTRAL_REPO: DEFRA/sps-apim-gateway
@@ -18,9 +18,7 @@ env:
   TEAM_REMOTE_NAME: sps-rsp-api
   TEAM_REPO_URL: DEFRA/sps-rsp-api
   TEAM_BRANCH: develop
-  REQUIRE_LINEAR_HISTORY: "false"
 
-  # Mapping (source → target)
   FOLDER_MAP: |
     internal/base/apis/rsp-api=internal/base/apis/rsp-api
     external/base/apis/rsp-api=external/base/apis/rsp-api
@@ -36,48 +34,46 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout (team repo)
+      - name: Checkout team repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Start SSH agent & load central deploy key
+      - name: SSH agent
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.CENTRAL_SYNC_SSH_KEY }}
 
-      - name: Prime known_hosts
+      - name: known_hosts
         run: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
-      - name: Configure Git identity
+      - name: Git identity
         run: |
-          git config --global user.name "${GITHUB_ACTOR}"
-          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config --global user.name github-actions
+          git config --global user.email github-actions@github.com
 
-      - name: Clone central repo and sync multiple folders
+      - name: Sync all folders
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           set -x
 
-          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-          echo "=== Clone central repo ==="
-          git clone --depth=50 "git@github.com:${CENTRAL_REPO}.git" central-repo
-          cd central-repo
+          git clone "git@github.com:${CENTRAL_REPO}.git" central
+          cd central
 
-          echo "=== Checkout central branch ==="
-          git fetch --no-tags origin "${CENTRAL_BRANCH}" --depth=50
-          git checkout -B "${CENTRAL_BRANCH}" FETCH_HEAD
+          git fetch origin "${CENTRAL_BRANCH}"
+          git checkout -B "${CENTRAL_BRANCH}" "origin/${CENTRAL_BRANCH}"
 
-          echo "=== Add team remote and fetch ==="
-          git remote add "${TEAM_REMOTE_NAME}" "https://x-access-token:${GITHUB_TOKEN}@github.com/${TEAM_REPO_URL}.git" \
-            || git remote set-url "${TEAM_REMOTE_NAME}" "https://x-access-token:${GITHUB_TOKEN}@github.com/${TEAM_REPO_URL}.git"
-          git fetch --no-tags "${TEAM_REMOTE_NAME}" "${TEAM_BRANCH}"
+          git remote add team "https://x-access-token:${GITHUB_TOKEN}@github.com/${TEAM_REPO_URL}.git" \
+            || git remote set-url team "https://x-access-token:${GITHUB_TOKEN}@github.com/${TEAM_REPO_URL}.git"
+          git fetch team "${TEAM_BRANCH}"
 
-          echo "=== Switch to team branch for subtree splits ==="
-          git checkout -B __team_branch__ "refs/remotes/${TEAM_REMOTE_NAME}/${TEAM_BRANCH}"
+          git checkout -B __team_branch__ "refs/remotes/team/${TEAM_BRANCH}"
+
+          API_NAME=$(echo "${FOLDER_MAP}" | head -n 1 | sed 's/.*apis\///' | sed 's/=.*//')
 
           printf '%s\n' "${FOLDER_MAP}" | while IFS='=' read -r SRC TARGET; do
             [ -z "${SRC}" ] && continue
@@ -86,60 +82,44 @@ jobs:
             TARGET="${TARGET%$'\r'}"
 
             echo ""
-            echo "=== PROCESSING SUBTREE ==="
-            echo "SRC=${SRC}"
-            echo "TARGET=${TARGET}"
+            echo "=== PROCESSING ${SRC} ==="
 
             git checkout __team_branch__
 
-            echo "Files under SRC:"
-            git ls-files -- "${SRC}" | sed 's/^/  - /' | head -n 20 || true
-
-            HAS_HISTORY=$(git rev-list -1 HEAD -- "${SRC}" || true)
-            if [ -z "${HAS_HISTORY}" ]; then
-              echo "No commits touch '${SRC}'. Skipping."
+            if ! git rev-list -1 HEAD -- "${SRC}" >/dev/null 2>&1; then
+              echo "No history for ${SRC}. Skipping"
               continue
             fi
 
             SPLIT_SHA=$(git subtree split -P "${SRC}" || true)
             if [ -z "${SPLIT_SHA}" ]; then
-              echo "split produced no commit for ${SRC}. Skipping."
+              echo "split returned no commit for ${SRC}. Skipping."
               continue
             fi
-            echo "Split SHA = ${SPLIT_SHA}"
 
-            CUSTOM_MESSAGE="subtree: sync ${SRC} → ${TARGET} | ${TEAM_REMOTE_NAME}/${TEAM_BRANCH} | ${TIMESTAMP}"
+            MSG="Subtree sync: ${API_NAME} → develop | api: ${API_NAME} | folder=${SRC} | ${TS}"
 
             git checkout "${CENTRAL_BRANCH}"
 
-            echo "Attempt merge…"
             set +e
-            git merge --no-commit -s recursive -Xsubtree="${TARGET}" "${SPLIT_SHA}" -m "${CUSTOM_MESSAGE}"
-            MERGE_RC=$?
+            git merge --no-commit -s recursive -Xsubtree="${TARGET}" "${SPLIT_SHA}" -m "${MSG}"
+            RC=$?
             set -e
 
-            if [ $MERGE_RC -ne 0 ]; then
-              echo "Merge failed — bootstrapping"
+            if [ $RC -ne 0 ]; then
               git merge --abort 2>/dev/null || git reset --merge || true
               git reset --hard
-
               git rm -r --cached --ignore-unmatch "${TARGET}" || true
               git clean -fdx -- "${TARGET}" || true
-
               git read-tree --prefix="${TARGET}/" -u "${SPLIT_SHA}^{tree}"
               git add -A "${TARGET}"
-
               TREE=$(git write-tree)
-              NEW=$(echo "${CUSTOM_MESSAGE}" | git commit-tree "$TREE" -p HEAD -p "${SPLIT_SHA}")
+              NEW=$(echo "${MSG}" | git commit-tree "$TREE" -p HEAD -p "${SPLIT_SHA}")
               git reset --hard "$NEW"
             else
-              if git diff --quiet --cached; then
-                git merge --abort 2>/dev/null || git reset --merge
-              else
-                git commit -m "${CUSTOM_MESSAGE}"
-              fi
+              git commit -m "${MSG}" || true
             fi
+
           done
 
-          echo "=== Push central branch ==="
           git push origin "${CENTRAL_BRANCH}"

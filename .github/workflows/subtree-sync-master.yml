@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
 
 env:
@@ -41,7 +41,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: SSH agent
+      - name: Start SSH agent
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.CENTRAL_SYNC_SSH_KEY }}
@@ -54,7 +54,7 @@ jobs:
           git config --global user.name github-actions
           git config --global user.email github-actions@github.com
 
-      - name: Clone & prepare
+      - name: Clone central and prepare PR
         id: prep
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -76,11 +76,15 @@ jobs:
 
           git checkout -B __team_branch__ "refs/remotes/team/${TEAM_BRANCH}"
 
+          # Extract API name (rsp-api) automatically
+          API_NAME=$(echo "${FOLDER_MAP}" | head -n 1 | sed 's/.*apis\///' | sed 's/=.*//')
+          echo "API_NAME=${API_NAME}"
+
           CHANGES=false
           PR_BRANCH=""
 
           while IFS='=' read -r SRC TARGET; do
-            [ -z "$SRC" ] && continue
+            [ -z "${SRC}" ] && continue
 
             SRC="${SRC%$'\r'}"
             TARGET="${TARGET%$'\r'}"
@@ -90,28 +94,32 @@ jobs:
 
             git checkout __team_branch__
 
-            HAS=$(git rev-list -1 HEAD -- "${SRC}" || true)
-            if [ -z "$HAS" ]; then
+            if ! git rev-list -1 HEAD -- "${SRC}" > /dev/null 2>&1; then
               echo "No history for ${SRC}. Skipping"
               continue
             fi
 
             SPLIT_SHA=$(git subtree split -P "${SRC}" || true)
-            if [ -z "$SPLIT_SHA" ]; then
+            if [ -z "${SPLIT_SHA}" ]; then
               echo "Empty split for ${SRC}. Skipping"
               continue
             fi
+            echo "Split SHA = ${SPLIT_SHA}"
 
-            MSG="subtree sync ${SRC} → ${TARGET} | ${TS}"
+            MSG="Subtree sync: ${API_NAME} → master | api: ${API_NAME} | folder=${SRC} | ${TS}"
 
-            if [ "$CHANGES" = "false" ]; then
-              PR_BRANCH="pr-subtree/rsp-api/$(date +%Y%m%d-%H%M%S)-${GITHUB_SHA::7}"
+            # Create PR branch on first change
+            if [ "${CHANGES}" = "false" ]; then
+              PR_BRANCH="pr-subtree/${API_NAME}/$(date +%Y%m%d-%H%M%S)-${GITHUB_SHA::7}"
               git checkout -B "${PR_BRANCH}" "${BASE_BRANCH}"
             else
               git checkout "${PR_BRANCH}"
             fi
 
-            MERGE_FLAGS="-X subtree=${TARGET} $( [ "${TEAM_WINS_ON_CONFLICT}" = "true" ] && echo -X theirs )"
+            MERGE_FLAGS="-X subtree=${TARGET}"
+            if [ "${TEAM_WINS_ON_CONFLICT}" = "true" ]; then
+              MERGE_FLAGS="${MERGE_FLAGS} -X theirs"
+            fi
 
             set +e
             git merge --no-commit -s recursive ${MERGE_FLAGS} "${SPLIT_SHA}" -m "${MSG}"
@@ -119,6 +127,7 @@ jobs:
             set -e
 
             if [ $RC -ne 0 ]; then
+              echo "Merge failed — bootstrapping"
               git merge --abort 2>/dev/null || git reset --merge || true
               git reset --hard
               git rm -r --cached --ignore-unmatch "${TARGET}" || true
@@ -129,22 +138,22 @@ jobs:
               NEW=$(echo "${MSG}" | git commit-tree "$TREE" -p HEAD -p "${SPLIT_SHA}")
               git reset --hard "$NEW"
             else
-              git commit -am "${MSG}" || true
+              git commit -m "${MSG}" || true
             fi
 
             CHANGES=true
-
           done <<< "${FOLDER_MAP}"
 
-          if [ "$CHANGES" = "false" ]; then
-            echo "No changes"
+          if [ "${CHANGES}" = "false" ]; then
             echo "PR_BRANCH=" >> $GITHUB_OUTPUT
             exit 0
           fi
 
           git push origin "${PR_BRANCH}"
           echo "PR_BRANCH=${PR_BRANCH}" >> $GITHUB_OUTPUT
+          echo "PR_TITLE=Subtree sync: ${API_NAME} → master | api: ${API_NAME}" >> $GITHUB_OUTPUT
 
       - name: Summary
         run: |
-          echo "PR Branch: ${{ steps.prep.outputs.PR_BRANCH }}" >> $GITHUB_STEP_SUMMARY
+          echo "**PR Branch:** ${{ steps.prep.outputs.PR_BRANCH }}" >> $GITHUB_STEP_SUMMARY
+          echo "**PR Title:**  ${{ steps.prep.outputs.PR_TITLE }}" >> $GITHUB_STEP_SUMMARY
