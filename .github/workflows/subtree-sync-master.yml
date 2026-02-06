@@ -24,7 +24,6 @@ env:
     internal/base/apis/rsp-api=internal/base/apis/rsp-api
     external/base/apis/rsp-api=external/base/apis/rsp-api
     internal/dev/apis/rsp-api=internal/dev/apis/rsp-api
-    external/dev/apis/rsp-api=external/dev/apis/rsp-api
     internal/tst/apis/rsp-api=internal/tst/apis/rsp-api
     external/tst/apis/rsp-api=external/tst/apis/rsp-api
     internal/pre/apis/rsp-api=internal/pre/apis/rsp-api
