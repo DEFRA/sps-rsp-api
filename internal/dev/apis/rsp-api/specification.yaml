@@ -4,7 +4,7 @@ info:
   description: UpdatedTest060226 This solution encompasses version 1 endpoints which will enable consumption of the RSP Data Cache with some additional write capability
   version: v1
 servers:
-  - url: https://dev-api-gateway.azure.defra.cloud/rsp/v1
+  - url: https://dev2-api-gateway.azure.defra.cloud/rsp/v1
 paths:
   /country:
     get:
