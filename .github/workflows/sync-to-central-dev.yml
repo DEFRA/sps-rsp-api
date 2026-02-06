@@ -30,6 +30,7 @@ env:
     external/tst/apis/rsp-api=external/tst/apis/rsp-api
     internal/pre/apis/rsp-api=internal/pre/apis/rsp-api
     external/pre/apis/rsp-api=external/pre/apis/rsp-api
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -75,55 +76,80 @@ jobs:
             "https://x-access-token:${GITHUB_TOKEN}@github.com/${TEAM_REPO_URL}.git" \
             || git remote set-url "${TEAM_REMOTE_NAME}" \
             "https://x-access-token:${GITHUB_TOKEN}@github.com/${TEAM_REPO_URL}.git"
+
           git fetch --no-tags "${TEAM_REMOTE_NAME}" "${TEAM_BRANCH}"
 
-          echo "=== Sync multiple internal/external folders ==="
+          echo "=== Switch to team branch for all subtree splits ==="
           git checkout -B __team_branch__ "refs/remotes/${TEAM_REMOTE_NAME}/${TEAM_BRANCH}"
 
-          # Read mapping from env and loop
-          echo "${FOLDER_MAP}" | while IFS='=' read -r SRC TARGET_PREFIX; do
-            echo "Processing subtree: SRC=${SRC}, TARGET=${TARGET_PREFIX}"
+          # Loop through the folder map
+          printf '%s\n' "${FOLDER_MAP}" | while IFS='=' read -r SRC TARGET; do
+            # Skip empty lines
+            [ -z "$SRC" ] && continue
 
-            if git ls-tree -r --name-only HEAD | grep -q "^${SRC}/"; then
-              SPLIT_SHA=$(git subtree split -P "${SRC}")
-              git checkout "${CENTRAL_BRANCH}"
+            # Trim CRLF if present
+            SRC="${SRC%$'\r'}"
+            TARGET="${TARGET%$'\r'}"
 
-              if [ -z "${SPLIT_SHA}" ]; then
-                echo "ERROR: subtree split produced no commit for ${SRC}. Skipping..."
-                continue
-              fi
+            echo ""
+            echo "=== PROCESSING SUBTREE ==="
+            echo "SRC=${SRC}"
+            echo "TARGET=${TARGET}"
 
-              CUSTOM_MESSAGE="subtree: sync ${SRC} → ${TARGET_PREFIX} | Source: ${TEAM_REMOTE_NAME}/${TEAM_BRANCH} | Timestamp: ${TIMESTAMP}"
+            echo "Files under SRC:"
+            git ls-files -- "${SRC}" | sed 's/^/  - /' | head -n 50 || true
 
-              echo "=== Attempt subtree merge ==="
-              set +e
-              git merge --no-commit -s recursive -Xsubtree="${TARGET_PREFIX}" "${SPLIT_SHA}" \
-                -m "${CUSTOM_MESSAGE}"
-              MERGE_RC=$?
-              set -e
-
-              if [ $MERGE_RC -ne 0 ]; then
-                echo "Merge failed. Bootstrapping subtree..."
-                git merge --abort 2>/dev/null || git reset --merge
-                git reset --hard
-                git rm -r --cached --ignore-unmatch "${TARGET_PREFIX}" || true
-                git clean -fdx -- "${TARGET_PREFIX}" || true
-                git read-tree --prefix="${TARGET_PREFIX}/" -u "${SPLIT_SHA}"
-                git add -A "${TARGET_PREFIX}"
-                TREE=$(git write-tree)
-                NEWCOMMIT=$(echo "${CUSTOM_MESSAGE}" | git commit-tree "$TREE" -p HEAD -p "${SPLIT_SHA}")
-                git reset --hard "$NEWCOMMIT"
-              else
-                if git diff --quiet --cached -- "${TARGET_PREFIX}"; then
-                  echo "No staged changes for ${TARGET_PREFIX}. Skipping commit."
-                  git merge --abort 2>/dev/null || git reset --merge
-                else
-                  git commit -m "${CUSTOM_MESSAGE}"
-                fi
-              fi
-            else
-              echo "Source folder '${SRC}' not found. Skipping..."
+            HAS_HISTORY=$(git rev-list -1 HEAD -- "${SRC}" || true)
+            if [ -z "${HAS_HISTORY}" ]; then
+              echo "No commits touch '${SRC}'. Skipping."
+              continue
             fi
+
+            echo "Running subtree split..."
+            SPLIT_SHA=$(git subtree split -P "${SRC}" || true)
+
+            if [ -z "${SPLIT_SHA}" ]; then
+              echo "ERROR: subtree split produced no commit for ${SRC}. Skipping."
+              continue
+            fi
+
+            echo "Subtree split commit: ${SPLIT_SHA}"
+
+            CUSTOM_MESSAGE="subtree: sync ${SRC} → ${TARGET} | Source: ${TEAM_REMOTE_NAME}/${TEAM_BRANCH} | Timestamp: ${TIMESTAMP}"
+
+            git checkout "${CENTRAL_BRANCH}"
+
+            echo "=== Attempt subtree merge ==="
+            set +e
+            git merge --no-commit -s recursive -Xsubtree="${TARGET}" "${SPLIT_SHA}" \
+              -m "${CUSTOM_MESSAGE}"
+            MERGE_RC=$?
+            set -e
+
+            if [ $MERGE_RC -ne 0 ]; then
+              echo "Merge failed — bootstrapping subtree."
+              git merge --abort 2>/dev/null || git reset --merge
+              git reset --hard
+
+              git rm -r --cached --ignore-unmatch "${TARGET}" || true
+              git clean -fdx -- "${TARGET}" || true
+
+              git read-tree --prefix="${TARGET}/" -u "${SPLIT_SHA}^{tree}"
+
+              git add -A "${TARGET}"
+
+              TREE=$(git write-tree)
+              NEWCOMMIT=$(echo "${CUSTOM_MESSAGE}" | git commit-tree "$TREE" -p HEAD -p "${SPLIT_SHA}")
+              git reset --hard "$NEWCOMMIT"
+            else
+              if git diff --quiet --cached -- "${TARGET}"; then
+                echo "No staged changes — skipping commit."
+                git merge --abort 2>/dev/null || git reset --merge
+              else
+                git commit -m "${CUSTOM_MESSAGE}"
+              fi
+            fi
+
           done
 
           echo "=== Push changes to central repo ==="
@@ -139,7 +165,7 @@ jobs:
                 echo "Push failed after ${tries} attempts."
                 exit 1
               fi
-              echo "Push rejected. Fetching & merging remote then retrying..."
+              echo "Push rejected. Attempting merge & retry."
               git fetch origin "${CENTRAL_BRANCH}"
               git merge --no-edit "origin/${CENTRAL_BRANCH}"
             done
