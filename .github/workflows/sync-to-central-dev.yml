@@ -1,4 +1,3 @@
-
 name: Sync subtree → Central (develop)
 
 on:
@@ -18,8 +17,6 @@ env:
   TEAM_REMOTE_NAME: sps-rsp-api
   TEAM_REPO_URL: DEFRA/sps-rsp-api
   TEAM_BRANCH: develop
-
-  API_NAME: rsp-api
 
   FOLDER_MAP: |
     internal/base/apis/rsp-api=internal/base/apis/rsp-api
@@ -41,7 +38,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Load SSH for central
+      - name: Load central SSH key
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.CENTRAL_SYNC_SSH_KEY }}
@@ -59,10 +56,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          set -x
-
           TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          API_NAME="${API_NAME}"
 
           git clone "git@github.com:${CENTRAL_REPO}.git" central
           cd central
@@ -70,14 +64,16 @@ jobs:
           git fetch origin "${CENTRAL_BRANCH}"
           git checkout -B "${CENTRAL_BRANCH}" "origin/${CENTRAL_BRANCH}"
 
-          git remote add team "https://x-access-token:${GITHUB_TOKEN}@github.com/${TEAM_REPO_URL}.git" \
-            || git remote set-url team "https://x-access-token:${GITHUB_TOKEN}@github.com/${TEAM_REPO_URL}.git"
-
+          git remote add team \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${TEAM_REPO_URL}.git" \
+            || git remote set-url team \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${TEAM_REPO_URL}.git"
           git fetch team "${TEAM_BRANCH}"
+
           git checkout -B __team_branch__ "refs/remotes/team/${TEAM_BRANCH}"
 
-          printf '%s\n' "${FOLDER_MAP}" | while IFS='=' read -r SRC TARGET; do
-            [ -z "${SRC}" ] && continue
+          while IFS='=' read -r SRC TARGET; do
+            [ -z "$SRC" ] && continue
 
             SRC="${SRC%$'\r'}"
             TARGET="${TARGET%$'\r'}"
@@ -94,29 +90,34 @@ jobs:
             SPLIT_SHA=$(git subtree split -P "${SRC}")
             [ -z "${SPLIT_SHA}" ] && continue
 
-            MSG="Subtree sync: ${API_NAME} → develop | api: ${API_NAME} | folder=${SRC} | ${TS}"
+            # RESTORED ORIGINAL COMMIT FORMAT
+            CUSTOM_MESSAGE="subtree: merge ${SRC} → ${TARGET} | Source: ${TEAM_REMOTE_NAME}/${TEAM_BRANCH} | Timestamp: ${TS}"
 
             git checkout "${CENTRAL_BRANCH}"
 
             set +e
-            git merge --no-commit -s recursive -X subtree="${TARGET}" "${SPLIT_SHA}" -m "${MSG}"
+            git merge --no-commit -s recursive -X subtree="${TARGET}" \
+              "${SPLIT_SHA}" -m "${CUSTOM_MESSAGE}"
             RC=$?
             set -e
 
             if [ $RC -ne 0 ]; then
+              echo "Merge conflict → Bootstrapping subtree"
               git merge --abort 2>/dev/null || true
               git reset --hard
               git rm -r --cached --ignore-unmatch "${TARGET}" || true
               git clean -fdx -- "${TARGET}" || true
+
               git read-tree --prefix="${TARGET}/" -u "${SPLIT_SHA}^{tree}"
               git add -A "${TARGET}"
+
               TREE=$(git write-tree)
-              NEW=$(echo "${MSG}" | git commit-tree "$TREE" -p HEAD -p "${SPLIT_SHA}")
-              git reset --hard "$NEW"
+              NEWCOMM=$(echo "${CUSTOM_MESSAGE}" | git commit-tree "$TREE" -p HEAD -p "${SPLIT_SHA}")
+              git reset --hard "$NEWCOMM"
             else
-              git commit -m "${MSG}" || true
+              git commit -m "${CUSTOM_MESSAGE}" || true
             fi
 
-          done
+          done <<< "${FOLDER_MAP}"
 
           git push origin "${CENTRAL_BRANCH}"

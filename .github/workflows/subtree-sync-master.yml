@@ -1,4 +1,3 @@
-
 name: Sync subtree → Central (master)
 
 on:
@@ -21,9 +20,6 @@ env:
   TEAM_BRANCH: master
   TEAM_WINS_ON_CONFLICT: "true"
 
-  # FINAL FIX: Static API name
-  API_NAME: rsp-api
-
   FOLDER_MAP: |
     internal/base/apis/rsp-api=internal/base/apis/rsp-api
     external/base/apis/rsp-api=external/base/apis/rsp-api
@@ -39,97 +35,111 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout team repo
+      - name: Checkout (team repo)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Load SSH key for central repo
+      - name: Start SSH agent & load central deploy key
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.CENTRAL_SYNC_SSH_KEY }}
 
-      - name: known_hosts
+      - name: Prime known_hosts
         run: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
       - name: Configure Git identity
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
+          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
-      - name: Clone central repo and prepare PR branch
+      - name: Clone central and prepare PR branch
         id: prep
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          set -x
-
           TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-          git clone "git@github.com:${CENTRAL_REPO}.git" central
+          echo "=== Clone central repo ==="
+          git clone --depth=50 "git@github.com:${CENTRAL_REPO}.git" central
           cd central
 
-          git fetch origin "${BASE_BRANCH}"
+          git fetch origin "${BASE_BRANCH}" --depth=50
           git checkout -B "${BASE_BRANCH}" "origin/${BASE_BRANCH}"
 
-          git remote add team "https://x-access-token:${GITHUB_TOKEN}@github.com/${TEAM_REPO_URL}.git" \
-            || git remote set-url team "https://x-access-token:${GITHUB_TOKEN}@github.com/${TEAM_REPO_URL}.git"
+          echo "=== Add team remote and fetch ==="
+          git remote add team \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${TEAM_REPO_URL}.git" \
+            || git remote set-url team \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${TEAM_REPO_URL}.git"
           git fetch team "${TEAM_BRANCH}"
 
           git checkout -B __team_branch__ "refs/remotes/team/${TEAM_BRANCH}"
 
           CHANGES=false
-          PR_BRANCH=""
-          API_NAME="${API_NAME}"
+
+          echo "=== Begin subtree folder sync ==="
 
           while IFS='=' read -r SRC TARGET; do
-            [ -z "${SRC}" ] && continue
+            [ -z "$SRC" ] && continue
 
             SRC="${SRC%$'\r'}"
             TARGET="${TARGET%$'\r'}"
 
-            echo "=== PROCESSING ${SRC} → ${TARGET} ==="
+            echo ""
+            echo "*** Processing: SRC=${SRC} TARGET=${TARGET}"
 
             git checkout __team_branch__
 
             if ! git rev-list -1 HEAD -- "${SRC}" >/dev/null 2>&1; then
-              echo "No history for ${SRC}, skipping"
+              echo "No commits for path ${SRC}, skipping"
               continue
             fi
 
-            SPLIT_SHA=$(git subtree split -P "${SRC}" || true)
-            [ -z "${SPLIT_SHA}" ] && continue
+            SPLIT_SHA=$(git subtree split -P "${SRC}")
+            if [ -z "$SPLIT_SHA" ]; then
+              echo "No subtree commit found for ${SRC}, skip"
+              continue
+            fi
 
-            MSG="Subtree sync: ${API_NAME} → master | api: ${API_NAME} | folder=${SRC} | ${TS}"
+            # ORIGINAL COMMIT MESSAGE FORMAT (RESTORED)
+            CUSTOM_MESSAGE="subtree: merge ${SRC} → ${TARGET} | Source: ${TEAM_REMOTE_NAME}/${TEAM_BRANCH} | Timestamp: ${TS}"
 
             if [ "${CHANGES}" = "false" ]; then
-              PR_BRANCH="pr-subtree/${API_NAME}/$(date +%Y%m%d-%H%M%S)-${GITHUB_SHA::7}"
+              PR_BRANCH="pr-subtree/${TEAM_REMOTE_NAME}/$(date +%Y%m%d-%H%M%S)-${GITHUB_SHA::7}"
               git checkout -B "${PR_BRANCH}" "${BASE_BRANCH}"
             else
               git checkout "${PR_BRANCH}"
             fi
 
-            MERGE_FLAGS="-X subtree=${TARGET}"
-            [ "${TEAM_WINS_ON_CONFLICT}" = "true" ] && MERGE_FLAGS="${MERGE_FLAGS} -X theirs"
+            EXTRA_MERGE_FLAG=""
+            if [ "${TEAM_WINS_ON_CONFLICT}" = "true" ]; then
+              EXTRA_MERGE_FLAG="-X theirs"
+            fi
 
             set +e
-            git merge --no-commit -s recursive ${MERGE_FLAGS} "${SPLIT_SHA}" -m "${MSG}"
+            git merge --no-commit -s recursive -X subtree="${TARGET}" ${EXTRA_MERGE_FLAG} \
+              "${SPLIT_SHA}" -m "${CUSTOM_MESSAGE}"
             RC=$?
             set -e
 
             if [ $RC -ne 0 ]; then
-              git merge --abort 2>/dev/null || true
+              echo "Merge conflict → Bootstrapping subtree"
+              git merge --abort 2>/dev/null || git reset --merge || true
               git reset --hard
+
               git rm -r --cached --ignore-unmatch "${TARGET}" || true
               git clean -fdx -- "${TARGET}" || true
+
               git read-tree --prefix="${TARGET}/" -u "${SPLIT_SHA}^{tree}"
               git add -A "${TARGET}"
+
               TREE=$(git write-tree)
-              NEW=$(echo "${MSG}" | git commit-tree "$TREE" -p HEAD -p "${SPLIT_SHA}")
-              git reset --hard "$NEW"
+              NEWCOMM=$(echo "${CUSTOM_MESSAGE}" | git commit-tree "$TREE" -p HEAD -p "${SPLIT_SHA}")
+              git reset --hard "$NEWCOMM"
             else
-              git commit -m "${MSG}" || true
+              git commit -m "${CUSTOM_MESSAGE}" || true
             fi
 
             CHANGES=true
@@ -141,10 +151,11 @@ jobs:
             exit 0
           fi
 
+          echo "=== Push PR branch ==="
           git push origin "${PR_BRANCH}"
 
           echo "PR_BRANCH=${PR_BRANCH}" >> $GITHUB_OUTPUT
-          echo "PR_TITLE=Subtree sync: ${API_NAME} → master | api: ${API_NAME}" >> $GITHUB_OUTPUT
+          echo "PR_TITLE=Subtree sync: ${TEAM_REMOTE_NAME} → master | api: ${TEAM_REMOTE_NAME}" >> $GITHUB_OUTPUT
 
       - name: Summary
         run: |
