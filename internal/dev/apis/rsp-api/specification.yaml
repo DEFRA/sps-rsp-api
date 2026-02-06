@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: RSP API v1
-  description: Test06feb26 This solution encompasses version 1 endpoints which will enable consumption of the RSP Data Cache with some additional write capability
+  description: Test06feb26 Prathap - This solution encompasses version 1 endpoints which will enable consumption of the RSP Data Cache with some additional write capability
   version: v1
 servers:
   - url: https://dev-api-gateway.azure.defra.cloud/rsp/v1
