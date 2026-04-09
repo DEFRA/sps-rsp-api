@@ -1,21 +1,18 @@
+
 param(
     [string]$RootPath = ".",
     [ValidateSet('external', 'internal', 'both')] [string]$Journey = 'both',
     [ValidateSet('base', 'dev', 'pre', 'tst', 'all')] [string]$Environment = 'all',
-    [string]$ApiName = 'rsp-api',
-    [string]$ProductName = 'rsp-oauth-product', # Ignored for products; overridden by journey mapping below
-    [string]$VersionSetName = 'rsp-api',
-    [string[]]$NamedValueName = @('rsp-frontend-clientid', 'rsp-backend-scopeid'),
+    [string]$ApiName = 'BNGICC',
+    [string]$ProductName = 'BNGICC-product',
+    [string]$VersionSetName = 'BNGICC',
+    [string[]]$NamedValueName = @('BNGICC-backend-scopeid', 'BNGICC-frontend-clientid'),
     [switch]$FailOnError,
     [switch]$EnforceUpperSnakeCaseDisplayName
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
-
-# ----------------------------
-# Helpers
-# ----------------------------
 
 function Resolve-File {
     param([string]$Dir, [string[]]$Candidates)
@@ -28,19 +25,7 @@ function Resolve-File {
     return $null
 }
 
-function Get-ProductNameForJourney {
-    param([Parameter(Mandatory)][string]$JourneyValue)
-    switch -Regex ($JourneyValue.ToLower()) {
-        '^external$' { return 'rsp-oauth' }
-        '^internal$' { return 'rsp-oauth-product' }
-        default      { return $ProductName } # fallback if needed
-    }
-}
-
-# ----------------------------
-# Validators
-# ----------------------------
-
+# apiInformation.json strict validator
 function Test-ApiInformationFields {
     param($filePath)
     try {
@@ -77,6 +62,7 @@ function Test-ApiInformationFields {
     return $null
 }
 
+# productInformation.json strict validator
 function Test-ProductInformationFields {
     param($filePath)
     try {
@@ -99,6 +85,7 @@ function Test-ProductInformationFields {
     return $null
 }
 
+# versionSetInformation.json strict validator
 function Test-VersionSetInformationFields {
     param($filePath)
     try {
@@ -121,6 +108,7 @@ function Test-VersionSetInformationFields {
     return $null
 }
 
+# namedValueInformation.json strict validator
 function Test-NamedValueFields {
     param($filePath)
     try {
@@ -128,7 +116,7 @@ function Test-NamedValueFields {
         $props = $json.properties
         if (-not $props) { return "Missing 'properties' object in ${filePath}" }
 
-        $mandatoryFields = @('displayName','secret','tags','value')
+        $mandatoryFields = @('displayName','secret')
         foreach ($field in $mandatoryFields) {
             if (-not ($props.PSObject.Properties.Name -icontains $field)) {
                 return "Missing mandatory field '$field' in ${filePath}"
@@ -149,6 +137,7 @@ function Test-NamedValueFields {
     return $null
 }
 
+# YAML validator
 function Test-YamlOpenAPI {
     param($filePath)
     try {
@@ -176,12 +165,12 @@ function Test-EmptyJsonFile {
     catch { return "Invalid JSON in '$filePath': $_" }
 }
 
-# ----------------------------
-# Expectations
-# ----------------------------
+# --------------------------------------------------------------------------
+# EXPECTATIONS
+# --------------------------------------------------------------------------
 
 $JourneyList = if ($Journey -eq 'both') { @('external','internal') } else { @($Journey) }
-$EnvList     = if ($Environment -eq 'all') { @('base','dev','pre','tst') } else { @($Environment) }
+$EnvList = if ($Environment -eq 'all') { @('base','dev','pre','tst') } else { @($Environment) }
 
 $Expectations = @(
     @{ Name = "apis/*"
@@ -199,8 +188,13 @@ specification.yml' = { param($p) Test-YamlOpenAPI $p }
 policy.xml' = {
              param($p)
              $content = Get-Content $p -Raw
-             if ($content -notmatch '<policies>') { return "Missing <policies> root element in ${p}" }
-             if ($content -notmatch '<inbound>')  { return "Missing <inbound> section in ${p}" }
+
+             if ($content -notmatch '<policies>') { 
+                 return "Missing <policies> root element in ${p}" 
+             }
+             if ($content -notmatch '<inbound>')  { 
+                 return "Missing <inbound> section in ${p}" 
+             }
              return $null
          }
        }
@@ -226,16 +220,16 @@ policy.xml' = {
        Validators = @{ 'versionSetInformation.json' = { param($p) Test-VersionSetInformationFields $p } }
     },
 
-    @{ Name = "namedvalues/*"
-       RelDir = { param($j,$e,$n) Join-Path (Join-Path (Join-Path $j $e) "namedvalues") $n }
+    @{ Name = "named values/*"
+       RelDir = { param($j,$e,$n) Join-Path (Join-Path (Join-Path $j $e) "named values") $n }
        Required = @( @('namedValueInformation.json') )
        Validators = @{ 'namedValueInformation.json' = { param($p) Test-NamedValueFields $p } }
     }
 )
 
-# ----------------------------
-# Run Validation
-# ----------------------------
+# --------------------------------------------------------------------------
+# RUN VALIDATION
+# --------------------------------------------------------------------------
 
 $Errors = @()
 $SummaryLines = @()
@@ -252,21 +246,19 @@ foreach ($journey in $JourneyList) {
 
         foreach ($exp in $Expectations) {
 
-            # --- Resolve target names per expectation ---
             $targetNames = if ($exp.Name -like 'apis/*') {
                 @($ApiName)
             }
             elseif ($exp.Name -like 'products/*/apis/*') {
-                # Use dynamic product name based on the current journey
-                @((Get-ProductNameForJourney -JourneyValue $journey))
+                @($ProductName)
             }
             elseif ($exp.Name -like 'products/*') {
-                @((Get-ProductNameForJourney -JourneyValue $journey))
+                @($ProductName)
             }
             elseif ($exp.Name -like 'version sets/*') {
                 @($VersionSetName)
             }
-            elseif ($exp.Name -like 'namedvalues/*') {
+            elseif ($exp.Name -like 'named values/*') {
                 $NamedValueName
             }
             else {
@@ -313,9 +305,9 @@ foreach ($journey in $JourneyList) {
     }
 }
 
-# ----------------------------
-# Output Summary
-# ----------------------------
+# --------------------------------------------------------------------------
+# OUTPUT SUMMARY
+# --------------------------------------------------------------------------
 
 $EOL = "`r`n"
 $header = "## APIM Validation Summary${EOL}Journey | Env | Item | Status${EOL}--- | --- | --- | ---"

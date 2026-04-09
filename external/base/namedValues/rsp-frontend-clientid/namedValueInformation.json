@@ -1,8 +1,0 @@
-{
-  "properties": {
-    "displayName": "RSP_FRONTEND_CLIENTID",
-    "secret": true,
-    "tags": [],
-    "value": "#{{ rspClientAppIdExt }}"
-  }
-}
