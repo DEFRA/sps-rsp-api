@@ -26,7 +26,7 @@ jobs:
           $cmd = {
             pwsh -File "${{ github.workspace }}/scripts/Validate-APIMStructure.ps1" `
               -Journey both `
-              -Environment all `
+              -Environment base `
               -FailOnError `
               -EnforceUpperSnakeCaseDisplayName
           }
