@@ -1,11 +1,11 @@
 {
   "API_NAME": "rsp-api",
-  "API_DISPLAY_NAME": "RSP EXT ICC",
+  "API_DISPLAY_NAME": "rsp",
   "API_VERSION": "v1.0",
   "BASE_BACKEND_URL": "https://unused",
   "BACKEND_SCOPEID_KEYNAME": "rsp-backend-scopeid",
   "FRONTEND_CLIENTID_KEYNAME": "rsp-frontend-clientid",
-  "TENANT_ID": "#{{ b2cTenantId }}",
+  "TENANT_ID": "#{{ defraTenantId }}",
   "RATE_LIMIT_CALLS": 100,
   "RATE_LIMIT_PERIOD": 60,
   "DEV_BACKEND_URL": "http://devurl",
