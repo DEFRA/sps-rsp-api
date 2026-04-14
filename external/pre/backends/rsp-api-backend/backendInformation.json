@@ -2,6 +2,6 @@
   "properties": {
     "description": "rsp-api Backend",
     "protocol": "http",
-    "url": "http://preurl"
+    "url": "https://prerspafafa1413.azurewebsites.net/rsp-api/v1"
   }
 }
