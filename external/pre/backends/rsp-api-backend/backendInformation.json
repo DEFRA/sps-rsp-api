@@ -1,0 +1,7 @@
+{
+  "properties": {
+    "description": "rsp-api Backend",
+    "protocol": "http",
+    "url": "http://preurl"
+  }
+}

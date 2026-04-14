@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "displayName": "rsp-api_FRONTEND_CLIENTID",
+    "secret": true,
+    "keyVault": {
+      "secretIdentifier": "https://#{{ apiOpsKeyVaultName }}.vault.azure.net/secrets/rsp-frontend-clientid"
+    }
+  }
+}
