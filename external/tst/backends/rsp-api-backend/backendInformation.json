@@ -1,0 +1,7 @@
+{
+  "properties": {
+    "description": "rsp-api Backend",
+    "protocol": "http",
+    "url": "https://tstrspafafa1413.azurewebsites.net/rsp-api/v1"
+  }
+}
