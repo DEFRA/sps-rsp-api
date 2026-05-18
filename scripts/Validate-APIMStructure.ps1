@@ -4,7 +4,7 @@ param(
     [ValidateSet('external', 'internal', 'both')] [string]$Journey = 'both',
     [ValidateSet('base', 'dev', 'pre', 'tst', 'all')] [string]$Environment = 'all',
     [string]$ApiName = 'rsp-api',
-    [string]$ProductName = 'rsp-api-product',
+    [string]$ProductName = 'rsp-oauth-product',
     [string]$VersionSetName = 'rsp-api',
     [string[]]$NamedValueName = @('rsp-api-backend-scopeid', 'rsp-api-frontend-clientid'),
     [switch]$FailOnError,
