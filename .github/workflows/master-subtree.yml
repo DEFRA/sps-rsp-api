@@ -24,17 +24,7 @@ env:
     internal/base/apis/rsp-api=internal/base/apis/rsp-api
     internal/base/products/rsp-api-product=internal/base/products/rsp-api-product
     internal/base/version sets/rsp-api=internal/base/version sets/rsp-api
-    internal/base/backends/rsp-api-backend=internal/base/backends/rsp-api-backend
-    internal/dev/backends/rsp-api-backend=internal/dev/backends/rsp-api-backend
-    internal/tst/backends/rsp-api-backend=internal/tst/backends/rsp-api-backend
-    internal/pre/backends/rsp-api-backend=internal/pre/backends/rsp-api-backend
-    external/base/apis/rsp-api=external/base/apis/rsp-api
-    external/base/products/rsp-api-product=external/base/products/rsp-api-product
-    external/base/version sets/rsp-api=external/base/version sets/rsp-api
-    external/base/backends/rsp-api-backend=external/base/backends/rsp-api-backend
-    external/dev/backends/rsp-api-backend=external/dev/backends/rsp-api-backend
-    external/tst/backends/rsp-api-backend=external/tst/backends/rsp-api-backend
-    external/pre/backends/rsp-api-backend=external/pre/backends/rsp-api-backend
+    internal/dev/apis/rsp-api=internal/dev/apis/rsp-api
 
 jobs:
   prepare-branch:
@@ -126,51 +116,69 @@ jobs:
 
           done <<< "${FOLDER_MAP}"
 
-          ####################################################
-          # ✅ NAMED VALUES AUTO-SYNC (PROCESS SUBSTITUTION)
-          ####################################################
 
+          ####################################################
+          # NAMED VALUES AUTO-SYNC (FINAL SAFE VERSION)
+          ####################################################
           echo "=== Named Values Auto-Sync ==="
 
           NV_ROOTS=(
             "internal/base/named values"
-            "external/base/named values"
-            "external/dev/named values"
-            "external/tst/named values"
-            "external/pre/named values"
             "internal/dev/named values"
             "internal/tst/named values"
             "internal/pre/named values"
           )
 
+          TEAM_REMOTE="sps-rsp-api"
+          TEAM_REMOTE_BRANCH="master"
+
+          git fetch "$TEAM_REMOTE"
+
           for ROOT in "${NV_ROOTS[@]}"; do
+            echo ""
             echo "Checking NV root: $ROOT"
 
-            # HARD GUARD: skip roots that don't exist in this repo at all
-            if ! git ls-tree --name-only __team_branch__ "$ROOT" &>/dev/null; then
-              echo "⚠️ NV root not present in repo, skipping: $ROOT"
+            # Env roots are optional
+            if ! git ls-tree --name-only "$TEAM_REMOTE/$TEAM_REMOTE_BRANCH" "$ROOT" &>/dev/null; then
+              echo "NV root not present (expected): $ROOT"
               continue
             fi
 
-            NV_FOLDERS=$(
-              git ls-tree -r --name-only __team_branch__ \
-                | grep "^${ROOT}/" || true \
-                | sed -E "s#^${ROOT}/([^/]+)/.*#${ROOT}/\1#;" \
-                | sort -u
+            NV_ITEMS=$(
+              git ls-tree -r --name-only "$TEAM_REMOTE/$TEAM_REMOTE_BRANCH" |
+                grep "^${ROOT}/.*namedValueInformation\.json$" || true
             )
 
-            [[ -z "$NV_FOLDERS" ]] && continue
+            if [[ -z "$NV_ITEMS" ]]; then
+              echo "No named values under $ROOT (valid)"
+              continue
+            fi
 
-            while IFS= read -r SRC_NV; do
-              [[ -z "$SRC_NV" ]] && continue
+            echo "$NV_ITEMS" | while IFS= read -r ITEM; do
+              [[ -z "$ITEM" ]] && continue
 
-              echo "→ Sync NV: $SRC_NV"
+              echo "→ Sync NV item: $ITEM"
 
-              # 🔽 your existing per-NV sync logic continues here
-              # e.g. subtree split / copy / commit logic
+              if [[ -f "$ITEM" ]]; then
+                NV_FOLDER="$(dirname "$ITEM")"
+              else
+                NV_FOLDER="$ITEM"
+              fi
 
-            done <<< "$NV_FOLDERS"
+              mkdir -p "$NV_FOLDER"
+              git checkout "$TEAM_REMOTE/$TEAM_REMOTE_BRANCH" -- "$NV_FOLDER"
+              git add "$NV_FOLDER"
+            done
           done
+
+          ####################################################
+          # Commit Named Value changes (if any)
+          ####################################################
+          if ! git diff --cached --quiet; then
+            git commit -m "Sync named values from sps-rsp-api"
+          else
+            echo "No named value changes to commit"
+          fi
 
           ####################################################
           # PUSH PR
