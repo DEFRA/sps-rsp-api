@@ -3,7 +3,7 @@
     - Position <base/> inside a section to inherit policies from the outer scope.
     - Comments within policies are not preserved.
 -->
-<!-- Add policies as children to the <inbound>, <outbound>, <backend>, and <on-error> elements -->
+<!-- Add policies as children to the <inbound>, <outbound>, <backend>, and <on-error> elements dev only change sceanrio 18 May 26 12:33-->
 <policies>
 	<!-- Throttle, authorize, validate, cache, or transform the requests -->
 	<inbound>
