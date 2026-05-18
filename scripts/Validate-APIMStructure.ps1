@@ -6,7 +6,7 @@ param(
     [string]$ApiName = 'rsp-api',
     [string]$ProductName = 'rsp-oauth-product',
     [string]$VersionSetName = 'rsp-api',
-    [string[]]$NamedValueName = @('rsp-api-backend-scopeid', 'rsp-api-frontend-clientid'),
+    [string[]]$NamedValueName = @('rsp-backend-scopeid', 'rsp-frontend-clientid'),
     [switch]$FailOnError,
     [switch]$EnforceUpperSnakeCaseDisplayName
 )
