@@ -59,7 +59,7 @@ jobs:
           $cmd = {
             pwsh -File "${{ github.workspace }}/scripts/Validate-APIMPolicyRules.ps1" `
               -RootPath . `
-              -Journey internal `
+              -Journey both `
               -Environments base,dev,pre,tst `
               -ApiName * `
               -FailOnError `

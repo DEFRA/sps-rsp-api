@@ -25,6 +25,10 @@ env:
     internal/base/products/rsp-api-product=internal/base/products/rsp-api-product
     internal/base/version sets/rsp-api=internal/base/version sets/rsp-api
     internal/dev/apis/rsp-api=internal/dev/apis/rsp-api
+    external/base/apis/rsp-api=external/base/apis/rsp-api
+    external/base/products/rsp-api-product=external/base/products/rsp-api
+    external/base/version sets/rsp-api=external/base/version sets/rsp-api
+    external/dev/apis/rsp-api=external/dev/apis/rsp-api
 
 jobs:
   prepare-branch:
@@ -117,9 +121,9 @@ jobs:
           done <<< "${FOLDER_MAP}"
 
 
-          ####################################################
-          # NAMED VALUES AUTO-SYNC (FINAL SAFE VERSION)
-          ####################################################
+          #########################
+          # NAMED VALUES AUTO-SYNC 
+          #########################
           echo "=== Named Values Auto-Sync ==="
 
           NV_ROOTS=(

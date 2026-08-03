@@ -24,10 +24,11 @@ env:
     internal/base/apis/rsp-api=internal/base/apis/rsp-api
     internal/base/products/rsp-api-product=internal/base/products/rsp-api-product
     internal/base/version sets/rsp-api=internal/base/version sets/rsp-api
-    internal/base/backends/rsp-api-backend=internal/base/backends/rsp-api-backend
-    internal/dev/backends/rsp-api-backend=internal/dev/backends/rsp-api-backend
-    internal/tst/backends/rsp-api-backend=internal/tst/backends/rsp-api-backend
-    internal/pre/backends/rsp-api-backend=internal/pre/backends/rsp-api-backend
+    internal/dev/apis/rsp-api=internal/dev/apis/rsp-api
+    external/base/apis/rsp-api=external/base/apis/rsp-api
+    external/base/products/rsp-api-product=external/base/products/rsp-api
+    external/base/version sets/rsp-api=external/base/version sets/rsp-api
+    external/dev/apis/rsp-api=external/dev/apis/rsp-api
 
 jobs:
   sync:

@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "displayName": "RSP_BACKEND_SCOPEID",
+    "secret": true,
+    "tags": [],
+    "value": "#{{ rspBackEndAppIdExt }}"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "displayName": "RSP OAuth Product",
+    "description": "Product created for OAuth version of RSP API",
+    "state": "published",
+    "subscriptionRequired": false
+  }
+}
