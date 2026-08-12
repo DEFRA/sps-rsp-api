@@ -176,7 +176,7 @@ $Expectations = @(
     @{ Name = "apis/*"
        RelDir = { param($j,$e,$n) Join-Path (Join-Path (Join-Path $j $e) "apis") $n }
        Required = @( @('apiInformation.json','apinformation.json'),
-                     @('Specification.yaml','specification.yaml','specification.yml'),
+                     @('Specification.yaml','specification.yaml','specification.yml','Specification.json','specification.json'),
                      @('Policy.xml','policy.xml') )
        Validators = @{
          'apiInformation.json
