@@ -16,8 +16,8 @@
                 "tags": [
                     "ReSP : Country"
                 ],
-                "summary": "GET List of Countries",
-                "description": "GET List of Countries",
+                "summary": "GET List of Countries Demo",
+                "description": "GET List of Countries Demo",
                 "operationId": "country",
                 "parameters": [
                     {
