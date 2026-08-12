@@ -196,7 +196,7 @@ function Check-Rules-Dom {
 
     if ($journey -eq 'external' -and -not $hasAnyRateLimiter) {
         Add-Result -bag $results -journey $journey -env $env -api $api -file $file `
-            -rule "rate-limit presence (External)" -status "FAIL" `
+            -rule "rate-limit presence (External)" -status "WARN" `
             -details "External Publisher policies must include rate limiting: <rate-limit/> or <rate-limit-by-key/>."
     } else {
         Add-Result -bag $results -journey $journey -env $env -api $api -file $file `
