@@ -25,10 +25,14 @@ env:
     internal/base/products/rsp-api-product=internal/base/products/rsp-api-product
     internal/base/version sets/rsp-api=internal/base/version sets/rsp-api
     internal/dev/apis/rsp-api=internal/dev/apis/rsp-api
+    internal/tst/apis/rsp-api=internal/tst/apis/rsp-api
+    internal/pre/apis/rsp-api=internal/pre/apis/rsp-api
     external/base/apis/rsp-api=external/base/apis/rsp-api
     external/base/products/rsp-api-product=external/base/products/rsp-api
     external/base/version sets/rsp-api=external/base/version sets/rsp-api
     external/dev/apis/rsp-api=external/dev/apis/rsp-api
+    external/tst/apis/rsp-api=external/tst/apis/rsp-api
+    external/pre/apis/rsp-api=external/pre/apis/rsp-api
 
 jobs:
   prepare-branch:

@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://devrspafafa1408.azurewebsites.net/rsp-api/v1"
+      "url": "https://prerspafafa1408.azurewebsites.net/rsp-api/v1"
     }
   ],
   "paths": {
@@ -36,154 +36,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/countryList"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "NotFound",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "NotFound"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Internal Server Error"
-          }
-        },
-        "security": [
-          {
-            "Azure_APIM_Subscription_Key": [ ]
-          },
-          {
-            "bearer_auth": [ ]
-          }
-        ],
-        "x-ms-visibility": "important"
-      }
-    },
-    "/direction": {
-      "get": {
-        "tags": [
-          "ReSP : Direction"
-        ],
-        "summary": "GET List of Directions",
-        "operationId": "direction",
-        "parameters": [
-          {
-            "name": "status",
-            "in": "query",
-            "description": "The status code value of the Direction items",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Payload of DirectionList",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/directionList"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "NotFound",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "NotFound"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Internal Server Error"
-          }
-        },
-        "security": [
-          {
-            "Azure_APIM_Subscription_Key": [ ]
-          },
-          {
-            "bearer_auth": [ ]
-          }
-        ],
-        "x-ms-visibility": "important"
-      }
-    },
-    "/receivingEnvironment": {
-      "get": {
-        "tags": [
-          "ReSP : Receiving Environment"
-        ],
-        "summary": "GET List of Receiving Environments",
-        "operationId": "receivingEnvironment",
-        "parameters": [
-          {
-            "name": "status",
-            "in": "query",
-            "description": "The status code value of the Receiving Environment items",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Payload of ReceivingEnvironmentList",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/receivingEnvironmentList"
                 }
               }
             }
@@ -545,80 +397,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/areaList"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "NotFound",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "NotFound"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Internal Server Error"
-          }
-        },
-        "security": [
-          {
-            "Azure_APIM_Subscription_Key": [ ]
-          },
-          {
-            "bearer_auth": [ ]
-          }
-        ],
-        "x-ms-visibility": "important"
-      }
-    },
-    "/comparisonMethod": {
-      "get": {
-        "tags": [
-          "ReSP : Comparison Method"
-        ],
-        "summary": "GET List of Comaprison Methods",
-        "operationId": "comparisonMethod",
-        "parameters": [
-          {
-            "name": "status",
-            "in": "query",
-            "description": "The status code value of the Comparison Method items",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Payload of ComparisonMethodList",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/comparisonMethodList"
                 }
               }
             }
@@ -2213,80 +1991,6 @@
         "x-ms-visibility": "important"
       }
     },
-    "/monitoringPointType": {
-      "get": {
-        "tags": [
-          "ReSP : Monitoring Point Type"
-        ],
-        "summary": "GET List of Monitoring Point Types",
-        "operationId": "monitoringPointType",
-        "parameters": [
-          {
-            "name": "status",
-            "in": "query",
-            "description": "The status code value of the Monitoring Point Type items",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Payload of MonitoringPointTypeList",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/monitoringPointTypeList"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "NotFound",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "NotFound"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Internal Server Error"
-          }
-        },
-        "security": [
-          {
-            "Azure_APIM_Subscription_Key": [ ]
-          },
-          {
-            "bearer_auth": [ ]
-          }
-        ],
-        "x-ms-visibility": "important"
-      }
-    },
     "/monitoringStandard": {
       "get": {
         "tags": [
@@ -3078,231 +2782,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/permitFullDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "NotFound",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "NotFound"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Internal Server Error"
-          }
-        },
-        "security": [
-          {
-            "Azure_APIM_Subscription_Key": [ ]
-          },
-          {
-            "bearer_auth": [ ]
-          }
-        ],
-        "x-ms-visibility": "important"
-      }
-    },
-    "/permit/{permitId}/monitoringPoints": {
-      "get": {
-        "tags": [
-          "ReSP : Permit"
-        ],
-        "summary": "GET Monitoring Points by permit id",
-        "operationId": "permitMonitoringPoints ",
-        "parameters": [
-          {
-            "name": "permitId",
-            "in": "path",
-            "description": "Unique identifier of a permit",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Payload of PermitFullDto",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/permitFullDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "NotFound",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "NotFound"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Internal Server Error"
-          }
-        },
-        "security": [
-          {
-            "Azure_APIM_Subscription_Key": [ ]
-          },
-          {
-            "bearer_auth": [ ]
-          }
-        ],
-        "x-ms-visibility": "important"
-      }
-    },
-    "/permit/{permitId}/limitCategories": {
-      "get": {
-        "tags": [
-          "ReSP : Permit"
-        ],
-        "summary": "GET Limit Categories and child records by permit id",
-        "operationId": "permitLimitCategories ",
-        "parameters": [
-          {
-            "name": "permitId",
-            "in": "path",
-            "description": "Unique identifier of a permit",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Payload of PermitFullDto",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/permitFullDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "NotFound",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "NotFound"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Internal Server Error"
-          }
-        },
-        "security": [
-          {
-            "Azure_APIM_Subscription_Key": [ ]
-          },
-          {
-            "bearer_auth": [ ]
-          }
-        ],
-        "x-ms-visibility": "important"
-      }
-    },
-    "/permit/{permitId}/releaseOrInputLimits": {
-      "get": {
-        "tags": [
-          "ReSP : Permit"
-        ],
-        "summary": "GET Release or Input Limits by permit id",
-        "operationId": "permitReleaseOrInputLimits ",
-        "parameters": [
-          {
-            "name": "permitId",
-            "in": "path",
-            "description": "Unique identifier of a permit",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Payload of LimitDto",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/limitDto"
                 }
               }
             }
@@ -4471,93 +3950,6 @@
         "x-ms-visibility": "important"
       }
     },
-    "/standardRules/waterDischargeHelper": {
-      "post": {
-        "tags": [
-          "ReSP : Standard Rule for water discharge"
-        ],
-        "summary": "GET List of Standard Rules for water discharge based on POST request body conditions",
-        "operationId": "standardRulesWaterDischargeHelper",
-        "requestBody": {
-          "description": "Body of Standard Rule payload ",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/waterDischargeStandardRuleRequest"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Payload of StandardRuleResponse",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/standardRuleResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "BadRequest",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "BadRequest"
-          },
-          "404": {
-            "description": "NotFound",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "NotFound"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Internal Server Error"
-          }
-        },
-        "security": [
-          {
-            "Azure_APIM_Subscription_Key": [ ]
-          },
-          {
-            "bearer_auth": [ ]
-          }
-        ],
-        "x-ms-visibility": "important"
-      }
-    },
     "/standardRule": {
       "get": {
         "tags": [
@@ -4583,80 +3975,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/standardRuleList"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "NotFound",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "NotFound"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Internal Server Error"
-          }
-        },
-        "security": [
-          {
-            "Azure_APIM_Subscription_Key": [ ]
-          },
-          {
-            "bearer_auth": [ ]
-          }
-        ],
-        "x-ms-visibility": "important"
-      }
-    },
-    "/subSector": {
-      "get": {
-        "tags": [
-          "ReSP : Sub-Sector"
-        ],
-        "summary": "GET List of Sub-Sectors",
-        "operationId": "subSector",
-        "parameters": [
-          {
-            "name": "status",
-            "in": "query",
-            "description": "The status code value of the Sub Sector items",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Payload of SubSectorList",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/subSectorList"
                 }
               }
             }
@@ -5364,99 +4682,6 @@
           },
           "error": {
             "$ref": "#/components/schemas/error"
-          }
-        }
-      },
-      "directionList": {
-        "type": "object",
-        "properties": {
-          "source": {
-            "type": "string"
-          },
-          "result": {
-            "$ref": "#/components/schemas/directionDto"
-          },
-          "error": {
-            "$ref": "#/components/schemas/error"
-          }
-        }
-      },
-      "directionDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "startDate": {
-            "type": "string"
-          },
-          "endDate": {
-            "type": "string"
-          },
-          "state": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "status": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "rowVersion": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          }
-        }
-      },
-      "receivingEnvironmentList": {
-        "type": "object",
-        "properties": {
-          "source": {
-            "type": "string"
-          },
-          "result": {
-            "$ref": "#/components/schemas/receivingEnvironmentDto"
-          },
-          "error": {
-            "$ref": "#/components/schemas/error"
-          }
-        }
-      },
-      "receivingEnvironmentDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "defineReceivingEnvironmentNameOrDescription": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "definePredefinedLocation": {
-            "type": "boolean"
-          },
-          "defineTributaryOf": {
-            "type": "boolean"
-          },
-          "startDate": {
-            "type": "string"
-          },
-          "endDate": {
-            "type": "string"
-          },
-          "state": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "status": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "rowVersion": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
           }
         }
       },
@@ -6175,12 +5400,6 @@
               "$ref": "#/components/schemas/applicationPropertyDto"
             }
           },
-          "eventDurationMonitoringUniqueIds": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/eventDurationMonitoringUniqueIdDto"
-            }
-          },
           "relatedEntryReleasePoints": {
             "type": "array",
             "items": {
@@ -6203,10 +5422,6 @@
           },
           "adjustmentType": {
             "$ref": "#/components/schemas/adjustmentTypeReSPDto"
-          },
-          "isPrimaryActivity": {
-            "type": "boolean",
-            "nullable": true
           },
           "state": {
             "$ref": "#/components/schemas/choiceDto"
@@ -6343,44 +5558,6 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
-          }
-        }
-      },
-      "eventDurationMonitoringUniqueIdDto": {
-        "type": "object",
-        "properties": {
-          "eventDurationMonitoringUniqueId": {
-            "type": "string"
-          },
-          "rowVersion": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "effectiveStartDate": {
-            "type": "string"
-          },
-          "statecode": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "statuscode": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "regulatedactivitysubclassid": {
-            "type": "string"
-          },
-          "regulatedactivitysubclassidLogicalName": {
-            "type": "string"
-          },
-          "regulatedactivitysubclassidName": {
-            "type": "string"
-          },
-          "uniqueId": {
-            "type": "string"
           }
         }
       },
@@ -6825,9 +6002,6 @@
           "chargeCodeRef": {
             "type": "string"
           },
-          "isPrimaryActivity": {
-            "type": "boolean"
-          },
           "properties": {
             "type": "array",
             "items": {
@@ -7136,9 +6310,6 @@
           "bubbledUp": {
             "type": "string"
           },
-          "bubbledUp_location": {
-            "type": "string"
-          },
           "earesp_lagacysystembubbleup": {
             "type": "string"
           },
@@ -7340,51 +6511,6 @@
           },
           "error": {
             "$ref": "#/components/schemas/error"
-          }
-        }
-      },
-      "comparisonMethodList": {
-        "type": "object",
-        "properties": {
-          "source": {
-            "type": "string"
-          },
-          "result": {
-            "$ref": "#/components/schemas/comparisonMethodDto"
-          },
-          "error": {
-            "$ref": "#/components/schemas/error"
-          }
-        }
-      },
-      "comparisonMethodDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "unitRequirement": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "startDate": {
-            "type": "string"
-          },
-          "endDate": {
-            "type": "string"
-          },
-          "state": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "status": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "rowVersion": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
           }
         }
       },
@@ -7700,9 +6826,6 @@
           "bubbledUp": {
             "type": "string"
           },
-          "bubbledUp_location": {
-            "type": "string"
-          },
           "earesp_lagacysystembubbleup": {
             "type": "string"
           }
@@ -7822,18 +6945,24 @@
             "type": "string"
           },
           "permit": {
-            "type": "string"
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "legacyPermit": {
+            "$ref": "#/components/schemas/entityReferenceDto"
           },
           "monitoringPointRespId": {
             "type": "string"
           },
-          "sourceSystemId": {
+          "externalId": {
             "type": "string"
           },
           "name": {
             "type": "string"
           },
-          "monitoringpointtypelabel": {
+          "monitoringPointType": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "permitUrl": {
             "type": "string"
           },
           "latitude": {
@@ -7870,69 +6999,15 @@
             "format": "date-time",
             "nullable": true
           },
-          "nationalSecurity": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "commercialInConfidence": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "link": {
-            "$ref": "#/components/schemas/monitoringPointLinkDto"
-          },
-          "rowVersion": {
-            "type": "integer",
-            "format": "int64",
+          "permitEffectiveDate": {
+            "type": "string",
+            "format": "date-time",
             "nullable": true
-          }
-        }
-      },
-      "monitoringPointLinkDto": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/choiceDto"
           },
-          "rowVersion": {
-            "type": "integer",
-            "format": "int64",
+          "permitIssuedDate": {
+            "type": "string",
+            "format": "date-time",
             "nullable": true
-          }
-        }
-      },
-      "monitoringPointTypeList": {
-        "type": "object",
-        "properties": {
-          "source": {
-            "type": "string"
-          },
-          "result": {
-            "$ref": "#/components/schemas/monitoringPointTypeDto"
-          },
-          "error": {
-            "$ref": "#/components/schemas/error"
-          }
-        }
-      },
-      "monitoringPointTypeDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "startDate": {
-            "type": "string"
-          },
-          "endDate": {
-            "type": "string"
-          },
-          "state": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "status": {
-            "$ref": "#/components/schemas/choiceDto"
           },
           "rowVersion": {
             "type": "integer",
@@ -8206,107 +7281,6 @@
           },
           "error": {
             "$ref": "#/components/schemas/error"
-          }
-        }
-      },
-      "limitDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "activity": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "limitCategory": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "limitType": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "parameterGroup": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "parameter": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "value": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "unit": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "description": {
-            "type": "string"
-          },
-          "referencePeriod": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "monitoringFrequency": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "monitoringStandard": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "complianceMethod": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "comparisonMethod": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "direction": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "wasteProducer": {
-            "$ref": "#/components/schemas/polymorphicEntityReferenceDto"
-          },
-          "state": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "status": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "seasonalFromMonth": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "seasonalFromDay": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "seasonalToMonth": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "seasonalToDay": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "startDate": {
-            "type": "string"
-          },
-          "endDate": {
-            "type": "string"
-          },
-          "rowVersion": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          }
-        }
-      },
-      "polymorphicEntityReferenceDto": {
-        "type": "object",
-        "properties": {
-          "table": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
           }
         }
       },
@@ -8646,11 +7620,6 @@
           },
           "status": {
             "$ref": "#/components/schemas/choiceDto"
-          },
-          "rowVersion": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
           },
           "locationType": {
             "type": "integer",
@@ -9187,96 +8156,6 @@
           }
         }
       },
-      "waterDischargeStandardRuleRequest": {
-        "type": "object",
-        "properties": {
-          "typeOfDischargeActivity": {
-            "type": "string"
-          },
-          "isOperatorCharity": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "typeOfPremises": {
-            "type": "string"
-          },
-          "typeOfSurfaceWater": {
-            "type": "string"
-          },
-          "totalVolumeOfDischargePerDay": {
-            "type": "number",
-            "format": "double"
-          },
-          "distanceFromBoundaryToSewer": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "wellSpringBoreholeWhitin250m": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "groundwaterSPZ": {
-            "type": "string"
-          },
-          "protectedHabitatWhitin50mFromDischarge": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "designatedNearestProtectedHabitatDownstream": {
-            "type": "string"
-          },
-          "protectedHabitatWhitin1kmDownstreamDischarge": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "distanceToNearestProtectedHabitatFromDischarge": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "isProtectedHabitatWaterbased": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "isSiteInAcientWoodland": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "isProtectedAreaLocatedWhithin100mDownstreamDischarge": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "isProtectedAreaLocatedWhithin50mFromDischarge": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "nearestProtectedArea": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "nearestProtectedAreaDownstream": {
-            "type": "string"
-          },
-          "isProtectedAreaRiverBased": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "distanceToNearestProtectedAreaDownstream": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "isBathingWaterWithin1kmDownstreamDischarge": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "isBodyOfWaterProtectedSpeciesWhithin1kmDownstreamDischarge": {
-            "type": "boolean",
-            "nullable": true
-          }
-        }
-      },
       "standardRuleList": {
         "type": "object",
         "properties": {
@@ -9307,54 +8186,6 @@
             "$ref": "#/components/schemas/entityReferenceDto"
           },
           "regulatedActivitySubClass": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "startDate": {
-            "type": "string"
-          },
-          "endDate": {
-            "type": "string"
-          },
-          "state": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "status": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "rowVersion": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          }
-        }
-      },
-      "subSectorList": {
-        "type": "object",
-        "properties": {
-          "source": {
-            "type": "string"
-          },
-          "result": {
-            "$ref": "#/components/schemas/subSectorDto"
-          },
-          "error": {
-            "$ref": "#/components/schemas/error"
-          }
-        }
-      },
-      "subSectorDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "regime": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "sector": {
             "$ref": "#/components/schemas/entityReferenceDto"
           },
           "startDate": {

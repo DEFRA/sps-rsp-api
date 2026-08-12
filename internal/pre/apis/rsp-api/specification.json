@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://prdrspafafa1403.azurewebsites.net/rsp-api/v1"
+      "url": "https://prerspafafa1408.azurewebsites.net/rsp-api/v1"
     }
   ],
   "paths": {
@@ -2857,6 +2857,84 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/permitMonitoringReturnsList"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NotFound",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "NotFound"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "Azure_APIM_Subscription_Key": [ ]
+          },
+          {
+            "bearer_auth": [ ]
+          }
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/permit/{permitId}/permitAuditHistory": {
+      "get": {
+        "tags": [
+          "ReSP : Permit"
+        ],
+        "summary": "GET audit history for a permit by permit id",
+        "operationId": "permitAuditHistory",
+        "parameters": [
+          {
+            "name": "permitId",
+            "in": "path",
+            "description": "Unique identifier of a permit",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Array of PermitAuditDto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/permitAuditDto"
+                  }
                 }
               }
             }
@@ -7354,6 +7432,54 @@
             "type": "integer",
             "format": "int64",
             "nullable": true
+          }
+        }
+      },
+      "permitAuditDto": {
+        "type": "object",
+        "properties": {
+          "permitId": {
+            "type": "string"
+          },
+          "auditEventId": {
+            "type": "string"
+          },
+          "changeType": {
+            "type": "string"
+          },
+          "changeDate": {
+            "type": "string"
+          },
+          "changedRecord": {
+            "$ref": "#/components/schemas/changeRecordDto"
+          }
+        }
+      },
+      "changeRecordDto": {
+        "type": "object",
+        "properties": {
+          "newValue": {
+            "type": "string"
+          },
+          "previousValue": {
+            "type": "string"
+          },
+          "fieldSchemaName": {
+            "type": "string"
+          },
+          "rowVersion": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "entityName": {
+            "type": "string"
+          },
+          "modifiedDate": {
+            "type": "string"
+          },
+          "recordId": {
+            "type": "string"
           }
         }
       },
