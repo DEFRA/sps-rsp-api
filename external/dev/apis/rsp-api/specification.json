@@ -22,7 +22,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "The status code value of the Country items Demo",
+            "description": "The status code value of the Country items",
             "schema": {
               "type": "integer",
               "format": "int32"
