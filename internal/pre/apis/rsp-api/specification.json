@@ -76,10 +76,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -150,10 +150,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -224,10 +224,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -299,10 +299,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -374,10 +374,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -436,10 +436,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -511,10 +511,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -585,10 +585,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -659,10 +659,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -733,10 +733,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -808,10 +808,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -883,10 +883,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -958,10 +958,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -1049,10 +1049,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -1140,10 +1140,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -1231,10 +1231,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -1306,10 +1306,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -1381,10 +1381,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -1456,10 +1456,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -1531,10 +1531,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -1606,10 +1606,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -1681,10 +1681,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -1756,10 +1756,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -1831,10 +1831,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -1906,10 +1906,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -1981,10 +1981,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -2055,10 +2055,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -2129,10 +2129,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -2204,10 +2204,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -2278,10 +2278,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -2352,10 +2352,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -2439,10 +2439,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -2513,10 +2513,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -2587,10 +2587,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -2661,10 +2661,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -2736,10 +2736,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -2811,10 +2811,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -2885,10 +2885,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -2959,10 +2959,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -3043,10 +3043,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -3118,10 +3118,235 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
+          }
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/permit/{permitId}/monitoringPoints": {
+      "get": {
+        "tags": [
+          "ReSP : Permit"
+        ],
+        "summary": "GET Monitoring Points by permit id",
+        "operationId": "permitMonitoringPoints ",
+        "parameters": [
+          {
+            "name": "permitId",
+            "in": "path",
+            "description": "Unique identifier of a permit",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of PermitFullDto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/permitFullDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NotFound",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "NotFound"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "Azure_APIM_Subscription_Key": [ ]
+          },
+          {
+            "bearer_auth": [ ]
+          }
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/permit/{permitId}/limitCategories": {
+      "get": {
+        "tags": [
+          "ReSP : Permit"
+        ],
+        "summary": "GET Limit Categories and child records by permit id",
+        "operationId": "permitLimitCategories ",
+        "parameters": [
+          {
+            "name": "permitId",
+            "in": "path",
+            "description": "Unique identifier of a permit",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of PermitFullDto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/permitFullDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NotFound",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "NotFound"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "Azure_APIM_Subscription_Key": [ ]
+          },
+          {
+            "bearer_auth": [ ]
+          }
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/permit/{permitId}/releaseOrInputLimits": {
+      "get": {
+        "tags": [
+          "ReSP : Permit"
+        ],
+        "summary": "GET Release or Input Limits by permit id",
+        "operationId": "permitReleaseOrInputLimits ",
+        "parameters": [
+          {
+            "name": "permitId",
+            "in": "path",
+            "description": "Unique identifier of a permit",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of LimitDto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/limitDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NotFound",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "NotFound"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "Azure_APIM_Subscription_Key": [ ]
+          },
+          {
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -3193,10 +3418,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -3271,10 +3496,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -3345,10 +3570,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -3419,10 +3644,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -3493,10 +3718,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -3567,10 +3792,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -3641,10 +3866,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -3715,10 +3940,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -3802,10 +4027,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -3889,10 +4114,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -3976,10 +4201,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -4063,10 +4288,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -4150,10 +4375,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -4237,10 +4462,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -4311,10 +4536,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -4385,10 +4610,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -4459,10 +4684,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -4532,10 +4757,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -4606,10 +4831,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -4670,7 +4895,7 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -4740,7 +4965,7 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -4812,7 +5037,7 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -4883,10 +5108,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -4957,10 +5182,10 @@
         },
         "security": [
           {
-            "Azure_APIM_Subscription_Key": []
+            "Azure_APIM_Subscription_Key": [ ]
           },
           {
-            "bearer_auth": []
+            "bearer_auth": [ ]
           }
         ],
         "x-ms-visibility": "important"
@@ -5863,6 +6088,12 @@
               "$ref": "#/components/schemas/applicationPropertyDto"
             }
           },
+          "eventDurationMonitoringUniqueIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/eventDurationMonitoringUniqueIdDto"
+            }
+          },
           "relatedEntryReleasePoints": {
             "type": "array",
             "items": {
@@ -5879,12 +6110,22 @@
           "subsistenceChargeCode": {
             "$ref": "#/components/schemas/chargeCodeReSPDto"
           },
+          "chargeDateEffectiveFrom": {
+            "type": "string"
+          },
+          "chargeDateEffectiveTo": {
+            "type": "string"
+          },
           "backupGenerator": {
             "type": "boolean",
             "nullable": true
           },
           "adjustmentType": {
             "$ref": "#/components/schemas/adjustmentTypeReSPDto"
+          },
+          "isPrimaryActivity": {
+            "type": "boolean",
+            "nullable": true
           },
           "state": {
             "$ref": "#/components/schemas/choiceDto"
@@ -6021,6 +6262,44 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
+          }
+        }
+      },
+      "eventDurationMonitoringUniqueIdDto": {
+        "type": "object",
+        "properties": {
+          "eventDurationMonitoringUniqueId": {
+            "type": "string"
+          },
+          "rowVersion": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "effectiveStartDate": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "statuscode": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "regulatedactivitysubclassid": {
+            "type": "string"
+          },
+          "regulatedactivitysubclassidLogicalName": {
+            "type": "string"
+          },
+          "regulatedactivitysubclassidName": {
+            "type": "string"
+          },
+          "uniqueId": {
+            "type": "string"
           }
         }
       },
@@ -6465,6 +6744,9 @@
           "chargeCodeRef": {
             "type": "string"
           },
+          "isPrimaryActivity": {
+            "type": "boolean"
+          },
           "properties": {
             "type": "array",
             "items": {
@@ -6771,6 +7053,9 @@
             "nullable": true
           },
           "bubbledUp": {
+            "type": "string"
+          },
+          "bubbledUp_location": {
             "type": "string"
           },
           "earesp_lagacysystembubbleup": {
@@ -7320,6 +7605,9 @@
           "currentOperatorBillingAddress": {
             "$ref": "#/components/schemas/operatorAddressDto"
           },
+          "currentOperatorBillingAddressRef": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
           "sector": {
             "$ref": "#/components/schemas/entityReferenceDto"
           },
@@ -7334,8 +7622,17 @@
           "bubbledUp": {
             "type": "string"
           },
+          "bubbledUp_location": {
+            "type": "string"
+          },
           "earesp_lagacysystembubbleup": {
             "type": "string"
+          },
+          "eACustomerNumberDtos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/eaCustomerNumberDto"
+            }
           }
         }
       },
@@ -7453,24 +7750,18 @@
             "type": "string"
           },
           "permit": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "legacyPermit": {
-            "$ref": "#/components/schemas/entityReferenceDto"
+            "type": "string"
           },
           "monitoringPointRespId": {
             "type": "string"
           },
-          "externalId": {
+          "sourceSystemId": {
             "type": "string"
           },
           "name": {
             "type": "string"
           },
-          "monitoringPointType": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "permitUrl": {
+          "monitoringpointtypelabel": {
             "type": "string"
           },
           "latitude": {
@@ -7507,15 +7798,27 @@
             "format": "date-time",
             "nullable": true
           },
-          "permitEffectiveDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
+          "nationalSecurity": {
+            "$ref": "#/components/schemas/choiceDto"
           },
-          "permitIssuedDate": {
-            "type": "string",
-            "format": "date-time",
+          "commercialInConfidence": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "link": {
+            "$ref": "#/components/schemas/monitoringPointLinkDto"
+          },
+          "rowVersion": {
+            "type": "integer",
+            "format": "int64",
             "nullable": true
+          }
+        }
+      },
+      "monitoringPointLinkDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/choiceDto"
           },
           "rowVersion": {
             "type": "integer",
@@ -7831,6 +8134,107 @@
           },
           "error": {
             "$ref": "#/components/schemas/error"
+          }
+        }
+      },
+      "limitDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "activity": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "limitCategory": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "limitType": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "parameterGroup": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "parameter": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "unit": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "description": {
+            "type": "string"
+          },
+          "referencePeriod": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "monitoringFrequency": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "monitoringStandard": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "complianceMethod": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "comparisonMethod": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "direction": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "wasteProducer": {
+            "$ref": "#/components/schemas/polymorphicEntityReferenceDto"
+          },
+          "state": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "status": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "seasonalFromMonth": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "seasonalFromDay": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "seasonalToMonth": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "seasonalToDay": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
+          "rowVersion": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        }
+      },
+      "polymorphicEntityReferenceDto": {
+        "type": "object",
+        "properties": {
+          "table": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
           }
         }
       },
@@ -8170,6 +8574,11 @@
           },
           "status": {
             "$ref": "#/components/schemas/choiceDto"
+          },
+          "rowVersion": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           },
           "locationType": {
             "type": "integer",
