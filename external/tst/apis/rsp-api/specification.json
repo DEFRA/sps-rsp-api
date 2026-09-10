@@ -2,7 +2,7 @@
   "openapi": "3.0.4",
   "info": {
     "title": "RSP API v1",
-    "description": "This solution encompasses version 1 endpoints which will enable consumption of the RSP Data Cache with some additional write capability",    
+    "description": "This solution encompasses version 1 endpoints which will enable consumption of the RSP Data Cache with some additional write capability",
     "version": "v1"
   },
   "servers": [
@@ -4471,93 +4471,6 @@
         "x-ms-visibility": "important"
       }
     },
-    "/standardRules/waterDischargeHelper": {
-      "post": {
-        "tags": [
-          "ReSP : Standard Rule for water discharge"
-        ],
-        "summary": "GET List of Standard Rules for water discharge based on POST request body conditions",
-        "operationId": "standardRulesWaterDischargeHelper",
-        "requestBody": {
-          "description": "Body of Standard Rule payload ",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/waterDischargeStandardRuleRequest"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Payload of StandardRuleResponse",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/standardRuleResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "BadRequest",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "BadRequest"
-          },
-          "404": {
-            "description": "NotFound",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "NotFound"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Internal Server Error"
-          }
-        },
-        "security": [
-          {
-            "Azure_APIM_Subscription_Key": [ ]
-          },
-          {
-            "bearer_auth": [ ]
-          }
-        ],
-        "x-ms-visibility": "important"
-      }
-    },
     "/standardRule": {
       "get": {
         "tags": [
@@ -6126,6 +6039,9 @@
           "endDate": {
             "type": "string"
           },
+          "shortCode": {
+            "type": "string"
+          },
           "legacyRegion": {
             "$ref": "#/components/schemas/entityReferenceDto"
           },
@@ -6196,6 +6112,12 @@
           },
           "subsistenceChargeCode": {
             "$ref": "#/components/schemas/chargeCodeReSPDto"
+          },
+          "chargeDateEffectiveFrom": {
+            "type": "string"
+          },
+          "chargeDateEffectiveTo": {
+            "type": "string"
           },
           "backupGenerator": {
             "type": "boolean",
@@ -7686,6 +7608,9 @@
           "currentOperatorBillingAddress": {
             "$ref": "#/components/schemas/operatorAddressDto"
           },
+          "currentOperatorBillingAddressRef": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
           "sector": {
             "$ref": "#/components/schemas/entityReferenceDto"
           },
@@ -7705,6 +7630,12 @@
           },
           "earesp_lagacysystembubbleup": {
             "type": "string"
+          },
+          "eACustomerNumberDtos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/eaCustomerNumberDto"
+            }
           }
         }
       },
@@ -9184,96 +9115,6 @@
           },
           "groundwaterSPZ": {
             "type": "string"
-          }
-        }
-      },
-      "waterDischargeStandardRuleRequest": {
-        "type": "object",
-        "properties": {
-          "typeOfDischargeActivity": {
-            "type": "string"
-          },
-          "isOperatorCharity": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "typeOfPremises": {
-            "type": "string"
-          },
-          "typeOfSurfaceWater": {
-            "type": "string"
-          },
-          "totalVolumeOfDischargePerDay": {
-            "type": "number",
-            "format": "double"
-          },
-          "distanceFromBoundaryToSewer": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "wellSpringBoreholeWhitin250m": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "groundwaterSPZ": {
-            "type": "string"
-          },
-          "protectedHabitatWhitin50mFromDischarge": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "designatedNearestProtectedHabitatDownstream": {
-            "type": "string"
-          },
-          "protectedHabitatWhitin1kmDownstreamDischarge": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "distanceToNearestProtectedHabitatFromDischarge": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "isProtectedHabitatWaterbased": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "isSiteInAcientWoodland": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "isProtectedAreaLocatedWhithin100mDownstreamDischarge": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "isProtectedAreaLocatedWhithin50mFromDischarge": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "nearestProtectedArea": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "nearestProtectedAreaDownstream": {
-            "type": "string"
-          },
-          "isProtectedAreaRiverBased": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "distanceToNearestProtectedAreaDownstream": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "isBathingWaterWithin1kmDownstreamDischarge": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "isBodyOfWaterProtectedSpeciesWhithin1kmDownstreamDischarge": {
-            "type": "boolean",
-            "nullable": true
           }
         }
       },
