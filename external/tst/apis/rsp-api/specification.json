@@ -7814,6 +7814,9 @@
             "type": "integer",
             "format": "int64",
             "nullable": true
+          },
+          "monitoringPointType": {
+            "$ref": "#/components/schemas/monitoringPointTypeDto"
           }
         }
       },
@@ -7827,20 +7830,6 @@
             "type": "integer",
             "format": "int64",
             "nullable": true
-          }
-        }
-      },
-      "monitoringPointTypeList": {
-        "type": "object",
-        "properties": {
-          "source": {
-            "type": "string"
-          },
-          "result": {
-            "$ref": "#/components/schemas/monitoringPointTypeDto"
-          },
-          "error": {
-            "$ref": "#/components/schemas/error"
           }
         }
       },
@@ -7869,6 +7858,23 @@
             "type": "integer",
             "format": "int64",
             "nullable": true
+          },
+          "monitoringDataRepository": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          }
+        }
+      },
+      "monitoringPointTypeList": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/monitoringPointTypeDto"
+          },
+          "error": {
+            "$ref": "#/components/schemas/error"
           }
         }
       },
