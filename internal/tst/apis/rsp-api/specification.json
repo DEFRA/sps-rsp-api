@@ -1,5 +1,4 @@
-
-​{
+{
   "openapi": "3.0.4",
   "info": {
     "title": "RSP API v1",
@@ -2160,11 +2159,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Payload of MonitoringPointLinkDetail",
+            "description": "Payload of MonitoringPointDetail",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/monitoringPointLinkDetail"
+                  "$ref": "#/components/schemas/monitoringPointDetail"
                 }
               }
             }
@@ -2214,18 +2213,18 @@
         "x-ms-visibility": "important"
       }
     },
-    "/monitoringPointLink/{monitoringPointLinkId}": {
+    "/monitoringPointLink/{permitId}": {
       "get": {
         "tags": [
           "ReSP : MonitoringPointLink"
         ],
-        "summary": "GET Monitoring Point Link details by Monitoring Point Link Id",
+        "summary": "GET Monitoring Point Link details by Permit Id",
         "operationId": "monitoringPointLink",
         "parameters": [
           {
-            "name": "monitoringPointLinkId",
+            "name": "permitId",
             "in": "path",
-            "description": "Unique identifier of a Monitoring Point Link",
+            "description": "Unique identifier of a Permit",
             "required": true,
             "schema": {
               "type": "string",
@@ -2235,11 +2234,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Payload of MonitoringPointDetail",
+            "description": "Payload of MonitoringPointLinkDetail",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/monitoringPointDetail"
+                  "$ref": "#/components/schemas/monitoringPointLinkDetail"
                 }
               }
             }
@@ -7948,54 +7947,6 @@
           }
         }
       },
-      "monitoringPointLinkDetail": {
-        "type": "object",
-        "properties": {
-          "source": {
-            "type": "string"
-          },
-          "result": {
-            "$ref": "#/components/schemas/monitoringPointLinkDto"
-          },
-          "error": {
-            "$ref": "#/components/schemas/error"
-          }
-        }
-      },
-      "monitoringPointLinkDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "monitoringPointAssociations": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "limitCategories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/limitCategoryDto"
-            }
-          },
-          "permitId": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "applicationId": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "type": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "rowVersion": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          }
-        }
-      },
       "monitoringPointDetail": {
         "type": "object",
         "properties": {
@@ -8084,6 +8035,40 @@
           }
         }
       },
+      "monitoringPointLinkDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "monitoringPointAssociations": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "limitCategories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/limitCategoryDto"
+            }
+          },
+          "permitId": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "applicationId": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "type": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "rowVersion": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        }
+      },
       "monitoringPointTypeDto": {
         "type": "object",
         "properties": {
@@ -8112,6 +8097,20 @@
           },
           "monitoringDataRepository": {
             "$ref": "#/components/schemas/entityReferenceDto"
+          }
+        }
+      },
+      "monitoringPointLinkDetail": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/monitoringPointLinkDto"
+          },
+          "error": {
+            "$ref": "#/components/schemas/error"
           }
         }
       },
