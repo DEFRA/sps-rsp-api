@@ -3202,13 +3202,13 @@
         "x-ms-visibility": "important"
       }
     },
-    "/permit/{permitId}/limitCategories": {
+    "/permit/{permitId}/relationshipMappings": {
       "get": {
         "tags": [
           "ReSP : Permit"
         ],
-        "summary": "GET Limit Categories and child records by permit id",
-        "operationId": "permitLimitCategories ",
+        "summary": "GET Relationship Mappings and child records by permit id",
+        "operationId": "permitRelationshipMappings ",
         "parameters": [
           {
             "name": "permitId",
@@ -3434,6 +3434,84 @@
         ],
         "summary": "GET audit history for a permit by permit id",
         "operationId": "permitAuditHistory",
+        "parameters": [
+          {
+            "name": "permitId",
+            "in": "path",
+            "description": "Unique identifier of a permit",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Array of PermitAuditDto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/permitAuditDto"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NotFound",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "NotFound"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "Azure_APIM_Subscription_Key": [ ]
+          },
+          {
+            "bearer_auth": [ ]
+          }
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/permit/{permitId}/monitoringPointLinks": {
+      "get": {
+        "tags": [
+          "ReSP : Permit"
+        ],
+        "summary": "GET Monitoring Point Links for a permit by permit id",
+        "operationId": "PermitMonitoringPointLinks",
         "parameters": [
           {
             "name": "permitId",
@@ -4399,6 +4477,93 @@
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/dismantlingRecyclingStandardRuleRequest"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payload of StandardRuleResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/standardRuleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "BadRequest"
+          },
+          "404": {
+            "description": "NotFound",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "NotFound"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "Azure_APIM_Subscription_Key": [ ]
+          },
+          {
+            "bearer_auth": [ ]
+          }
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/standardRules/waterDischargeHelper": {
+      "post": {
+        "tags": [
+          "ReSP : Standard Rule for water discharge"
+        ],
+        "summary": "GET List of Standard Rules for water discharge based on POST request body conditions",
+        "operationId": "standardRulesWaterDischargeHelper",
+        "requestBody": {
+          "description": "Body of Standard Rule payload ",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/waterDischargeStandardRuleRequest"
                 }
               }
             }
@@ -7047,6 +7212,12 @@
               "$ref": "#/components/schemas/chargeDto"
             }
           },
+          "limitCategories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/limitCategoryDto"
+            }
+          },
           "permitHeader": {
             "$ref": "#/components/schemas/permitHeaderDto"
           },
@@ -7213,6 +7384,160 @@
             "type": "integer",
             "format": "int64",
             "nullable": true
+          }
+        }
+      },
+      "limitCategoryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "relationshipmapping": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "limitcategorytype": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "permit": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "limits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/limitDto"
+            }
+          },
+          "table": {
+            "type": "string"
+          },
+          "versionnumber": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "statuscode": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "statuscodeName": {
+            "type": "string"
+          },
+          "statecode": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "statecodeName": {
+            "type": "string"
+          }
+        }
+      },
+      "limitDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "activity": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "relationshipMapping": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "limitCategory": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "limitType": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "parameterGroup": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "parameter": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "unit": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "description": {
+            "type": "string"
+          },
+          "referencePeriod": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "monitoringFrequency": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "monitoringStandard": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "complianceMethod": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "comparisonMethod": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "direction": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "wasteProducer": {
+            "$ref": "#/components/schemas/polymorphicEntityReferenceDto"
+          },
+          "state": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "status": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "seasonalFromMonth": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "seasonalFromDay": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "seasonalToMonth": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "seasonalToDay": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
+          "rowVersion": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        }
+      },
+      "polymorphicEntityReferenceDto": {
+        "type": "object",
+        "properties": {
+          "table": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
           }
         }
       },
@@ -7764,8 +8089,8 @@
           "name": {
             "type": "string"
           },
-          "monitoringpointtypelabel": {
-            "type": "string"
+          "relationshipMapping": {
+            "$ref": "#/components/schemas/entityReferenceDto"
           },
           "latitude": {
             "type": "number",
@@ -7807,21 +8132,39 @@
           "commercialInConfidence": {
             "$ref": "#/components/schemas/choiceDto"
           },
-          "link": {
-            "$ref": "#/components/schemas/monitoringPointLinkDto"
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/monitoringPointLinkDto"
+            }
           },
           "rowVersion": {
             "type": "integer",
             "format": "int64",
             "nullable": true
+          },
+          "monitoringPointType": {
+            "$ref": "#/components/schemas/monitoringPointTypeDto"
           }
         }
       },
       "monitoringPointLinkDto": {
         "type": "object",
         "properties": {
-          "type": {
-            "$ref": "#/components/schemas/choiceDto"
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "limitCategory": {
+            "$ref": "#/components/schemas/limitCategoryDto"
+          },
+          "relationshipMapping": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "monitoringPointAssociation": {
+            "$ref": "#/components/schemas/monitoringPointAssociationDto"
           },
           "rowVersion": {
             "type": "integer",
@@ -7830,17 +8173,39 @@
           }
         }
       },
-      "monitoringPointTypeList": {
+      "monitoringPointAssociationDto": {
         "type": "object",
         "properties": {
-          "source": {
+          "id": {
             "type": "string"
           },
-          "result": {
-            "$ref": "#/components/schemas/monitoringPointTypeDto"
+          "monitoringPoint": {
+            "$ref": "#/components/schemas/monitoringPointReferenceDto"
           },
-          "error": {
-            "$ref": "#/components/schemas/error"
+          "relationshipMapping": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "state": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "rowVersion": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "monitoringPointReferenceDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
           }
         }
       },
@@ -7869,6 +8234,26 @@
             "type": "integer",
             "format": "int64",
             "nullable": true
+          },
+          "monitoringDataRepository": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "subType": {
+            "$ref": "#/components/schemas/choiceDto"
+          }
+        }
+      },
+      "monitoringPointTypeList": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/monitoringPointTypeDto"
+          },
+          "error": {
+            "$ref": "#/components/schemas/error"
           }
         }
       },
@@ -8140,107 +8525,6 @@
           }
         }
       },
-      "limitDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "activity": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "limitCategory": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "limitType": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "parameterGroup": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "parameter": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "value": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "unit": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "description": {
-            "type": "string"
-          },
-          "referencePeriod": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "monitoringFrequency": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "monitoringStandard": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "complianceMethod": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "comparisonMethod": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "direction": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "wasteProducer": {
-            "$ref": "#/components/schemas/polymorphicEntityReferenceDto"
-          },
-          "state": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "status": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "seasonalFromMonth": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "seasonalFromDay": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "seasonalToMonth": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "seasonalToDay": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "startDate": {
-            "type": "string"
-          },
-          "endDate": {
-            "type": "string"
-          },
-          "rowVersion": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          }
-        }
-      },
-      "polymorphicEntityReferenceDto": {
-        "type": "object",
-        "properties": {
-          "table": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          }
-        }
-      },
       "permitMonitoringReturnsList": {
         "type": "object",
         "properties": {
@@ -8352,7 +8636,7 @@
           "entryReleasePoint": {
             "$ref": "#/components/schemas/entityReferenceDto"
           },
-          "limitCategory": {
+          "relationshipMapping": {
             "$ref": "#/components/schemas/entityReferenceDto"
           },
           "activity": {
@@ -9115,6 +9399,96 @@
           },
           "groundwaterSPZ": {
             "type": "string"
+          }
+        }
+      },
+      "waterDischargeStandardRuleRequest": {
+        "type": "object",
+        "properties": {
+          "typeOfDischargeActivity": {
+            "type": "string"
+          },
+          "isOperatorCharity": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "typeOfPremises": {
+            "type": "string"
+          },
+          "typeOfSurfaceWater": {
+            "type": "string"
+          },
+          "totalVolumeOfDischargePerDay": {
+            "type": "number",
+            "format": "double"
+          },
+          "distanceFromBoundaryToSewer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "wellSpringBoreholeWhitin250m": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "groundwaterSPZ": {
+            "type": "string"
+          },
+          "protectedHabitatWhitin50mFromDischarge": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "designatedNearestProtectedHabitatDownstream": {
+            "type": "string"
+          },
+          "protectedHabitatWhitin1kmDownstreamDischarge": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "distanceToNearestProtectedHabitatFromDischarge": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "isProtectedHabitatWaterbased": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isSiteInAcientWoodland": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isProtectedAreaLocatedWhithin100mDownstreamDischarge": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isProtectedAreaLocatedWhithin50mFromDischarge": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "nearestProtectedArea": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nearestProtectedAreaDownstream": {
+            "type": "string"
+          },
+          "isProtectedAreaRiverBased": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "distanceToNearestProtectedAreaDownstream": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "isBathingWaterWithin1kmDownstreamDischarge": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isBodyOfWaterProtectedSpeciesWhithin1kmDownstreamDischarge": {
+            "type": "boolean",
+            "nullable": true
           }
         }
       },

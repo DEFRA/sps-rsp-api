@@ -2213,81 +2213,6 @@
         "x-ms-visibility": "important"
       }
     },
-    "/monitoringPointLink/{permitId}": {
-      "get": {
-        "tags": [
-          "ReSP : MonitoringPointLink"
-        ],
-        "summary": "GET Monitoring Point Link details by Permit Id",
-        "operationId": "monitoringPointLink",
-        "parameters": [
-          {
-            "name": "permitId",
-            "in": "path",
-            "description": "Unique identifier of a Permit",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Payload of MonitoringPointLinkDetail",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/monitoringPointLinkDetail"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "NotFound",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "NotFound"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/apiResponse_string"
-                }
-              }
-            },
-            "x-ms-summary": "Internal Server Error"
-          }
-        },
-        "security": [
-          {
-            "Azure_APIM_Subscription_Key": [ ]
-          },
-          {
-            "bearer_auth": [ ]
-          }
-        ],
-        "x-ms-visibility": "important"
-      }
-    },
     "/monitoringPointType": {
       "get": {
         "tags": [
@@ -3509,6 +3434,84 @@
         ],
         "summary": "GET audit history for a permit by permit id",
         "operationId": "permitAuditHistory",
+        "parameters": [
+          {
+            "name": "permitId",
+            "in": "path",
+            "description": "Unique identifier of a permit",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Array of PermitAuditDto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/permitAuditDto"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NotFound",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "NotFound"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponse_string"
+                }
+              }
+            },
+            "x-ms-summary": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "Azure_APIM_Subscription_Key": [ ]
+          },
+          {
+            "bearer_auth": [ ]
+          }
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/permit/{permitId}/monitoringPointLinks": {
+      "get": {
+        "tags": [
+          "ReSP : Permit"
+        ],
+        "summary": "GET Monitoring Point Links for a permit by permit id",
+        "operationId": "PermitMonitoringPointLinks",
         "parameters": [
           {
             "name": "permitId",
@@ -7402,8 +7405,11 @@
           "permit": {
             "$ref": "#/components/schemas/entityReferenceDto"
           },
-          "limitType": {
-            "$ref": "#/components/schemas/entityReferenceDto"
+          "limits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/limitDto"
+            }
           },
           "table": {
             "type": "string"
@@ -7427,6 +7433,110 @@
             "nullable": true
           },
           "statecodeName": {
+            "type": "string"
+          }
+        }
+      },
+      "limitDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "activity": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "relationshipMapping": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "limitCategory": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "limitType": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "parameterGroup": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "parameter": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "unit": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "description": {
+            "type": "string"
+          },
+          "referencePeriod": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "monitoringFrequency": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "monitoringStandard": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "complianceMethod": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "comparisonMethod": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "direction": {
+            "$ref": "#/components/schemas/entityReferenceDto"
+          },
+          "wasteProducer": {
+            "$ref": "#/components/schemas/polymorphicEntityReferenceDto"
+          },
+          "state": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "status": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "seasonalFromMonth": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "seasonalFromDay": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "seasonalToMonth": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "seasonalToDay": {
+            "$ref": "#/components/schemas/choiceDto"
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
+          "rowVersion": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        }
+      },
+      "polymorphicEntityReferenceDto": {
+        "type": "object",
+        "properties": {
+          "table": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "id": {
             "type": "string"
           }
         }
@@ -7979,8 +8089,8 @@
           "name": {
             "type": "string"
           },
-          "monitoringpointtypelabel": {
-            "type": "string"
+          "relationshipMapping": {
+            "$ref": "#/components/schemas/entityReferenceDto"
           },
           "latitude": {
             "type": "number",
@@ -8022,8 +8132,11 @@
           "commercialInConfidence": {
             "$ref": "#/components/schemas/choiceDto"
           },
-          "link": {
-            "$ref": "#/components/schemas/monitoringPointLinkDto"
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/monitoringPointLinkDto"
+            }
           },
           "rowVersion": {
             "type": "integer",
@@ -8044,28 +8157,55 @@
           "name": {
             "type": "string"
           },
-          "monitoringPointAssociations": {
+          "limitCategory": {
+            "$ref": "#/components/schemas/limitCategoryDto"
+          },
+          "relationshipMapping": {
             "$ref": "#/components/schemas/entityReferenceDto"
           },
-          "limitCategories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/limitCategoryDto"
-            }
+          "monitoringPointAssociation": {
+            "$ref": "#/components/schemas/monitoringPointAssociationDto"
           },
-          "permitId": {
+          "rowVersion": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        }
+      },
+      "monitoringPointAssociationDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "monitoringPoint": {
+            "$ref": "#/components/schemas/monitoringPointReferenceDto"
+          },
+          "relationshipMapping": {
             "$ref": "#/components/schemas/entityReferenceDto"
           },
-          "applicationId": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "type": {
+          "state": {
             "$ref": "#/components/schemas/choiceDto"
           },
           "rowVersion": {
             "type": "integer",
             "format": "int64",
             "nullable": true
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "monitoringPointReferenceDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
           }
         }
       },
@@ -8097,20 +8237,9 @@
           },
           "monitoringDataRepository": {
             "$ref": "#/components/schemas/entityReferenceDto"
-          }
-        }
-      },
-      "monitoringPointLinkDetail": {
-        "type": "object",
-        "properties": {
-          "source": {
-            "type": "string"
           },
-          "result": {
-            "$ref": "#/components/schemas/monitoringPointLinkDto"
-          },
-          "error": {
-            "$ref": "#/components/schemas/error"
+          "subType": {
+            "$ref": "#/components/schemas/choiceDto"
           }
         }
       },
@@ -8393,107 +8522,6 @@
           },
           "error": {
             "$ref": "#/components/schemas/error"
-          }
-        }
-      },
-      "limitDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "activity": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "relationshipMapping": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "limitType": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "parameterGroup": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "parameter": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "value": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "unit": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "description": {
-            "type": "string"
-          },
-          "referencePeriod": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "monitoringFrequency": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "monitoringStandard": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "complianceMethod": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "comparisonMethod": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "direction": {
-            "$ref": "#/components/schemas/entityReferenceDto"
-          },
-          "wasteProducer": {
-            "$ref": "#/components/schemas/polymorphicEntityReferenceDto"
-          },
-          "state": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "status": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "seasonalFromMonth": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "seasonalFromDay": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "seasonalToMonth": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "seasonalToDay": {
-            "$ref": "#/components/schemas/choiceDto"
-          },
-          "startDate": {
-            "type": "string"
-          },
-          "endDate": {
-            "type": "string"
-          },
-          "rowVersion": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          }
-        }
-      },
-      "polymorphicEntityReferenceDto": {
-        "type": "object",
-        "properties": {
-          "table": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
           }
         }
       },
